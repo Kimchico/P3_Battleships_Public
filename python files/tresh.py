@@ -39,13 +39,14 @@ def convert(image):
     return image
 
 # Read the camera.
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 
 # While loop that runs while true.
 while(1):
 
     # Get camera feed.
     _, frame = cap.read()
+    frame = cv2.GaussianBlur(frame, (5,5), cv2.BORDER_DEFAULT)
 
     # Convert the camera feed to HSV.
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
