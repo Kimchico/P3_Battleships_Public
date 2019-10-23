@@ -1,8 +1,10 @@
 # Imports
 import cv2
 import numpy as np
+from Colors import Color
 
 # Converter (DOESNT WORK)
+"""
 def convert(image):
     w , h, _ = image.shape
     for x in range(int(w)):
@@ -37,6 +39,26 @@ def convert(image):
             image[x, y] = h, s, v
 
     return image
+"""
+def color(colors, hsv):
+    if colors == Color.RED:
+        lower = np.array([150 - 30, 100, 100])
+        upper = np.array([150 + 30, 255, 255])
+        mask = cv2.inRange(hsv, lower, upper)
+        cv2.imshow(str(colors), mask)
+    
+    if colors == Color.GREEN:
+        lower = np.array([60 - 30, 100, 100])
+        upper = np.array([60 + 30, 255, 255])
+        mask = cv2.inRange(hsv, lower, upper)
+        cv2.imshow(str(colors), mask)
+
+    if colors == Color.BLUE:
+        print(cv2.cvtColor(np.uint8([[[0, 0, 255]]]), cv2.COLOR_BGR2HSV))
+        lower = np.array([80, 70, 70])
+        upper = np.array([140, 255, 255])
+        mask = cv2.inRange(hsv, lower, upper)
+        cv2.imshow(str(colors), mask)
 
 # Read the camera.
 cap = cv2.VideoCapture(0)
@@ -46,27 +68,33 @@ while(1):
 
     # Get camera feed.
     _, frame = cap.read()
+    kernel = np.ones((5,5),np.uint8)
     frame = cv2.GaussianBlur(frame, (5,5), cv2.BORDER_DEFAULT)
+    frame = cv2.morphologyEx(frame, cv2.MORPH_OPEN, kernel)
+   
 
     # Convert the camera feed to HSV.
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
     # Input thresholded color RGB value.
-    green = np.uint8([[[0, 255, 0]]])
+    #red = np.uint8([[[255, 0, 0]]])
 
     # Convert that color to HSV.
-    hsv_green = cv2.cvtColor(green, cv2.COLOR_BGR2HSV)
+    #hsv_red = cv2.cvtColor(red, cv2.COLOR_BGR2HSV)
 
     # Set the upper and lower threshold with a offset that suits you.
-    lower_green = np.array([71 - 30, 100, 100])
-    upper_green = np.array([71 + 30, 255, 255])
+    #lower_red = np.array([150 - 30, 100, 100])
+    #upper_red = np.array([150 + 30, 255, 255])
 
     # Make a mask with the converted camera feed and the thresholded values.
-    mask = cv2.inRange(hsv, lower_green, upper_green)
+    #red_mask = cv2.inRange(hsv, lower_red, upper_red)
 
     # Show the frames (maybe use numpy.concatenate).
-    cv2.imshow("Normal", frame)
-    cv2.imshow("Thresh", mask)
+    color(Color.RED, hsv)
+    color(Color.GREEN, hsv)
+    color(Color.BLUE, hsv)
+    #cv2.imshow("Normal", frame)
+    
 
     # Set variable k equal to keypressed.
     k = cv2.waitKey(1) & 0xFF
