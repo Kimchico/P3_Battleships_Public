@@ -1,7 +1,7 @@
 # Imports
 import cv2
 import numpy as np
-from Colors import Color
+from Colors import *
 
 # Converter (DOESNT WORK)
 """
@@ -40,25 +40,9 @@ def convert(image):
 
     return image
 """
-def color(colors, hsv):
-    if colors == Color.RED:
-        lower = np.array([150 - 30, 100, 100])
-        upper = np.array([150 + 30, 255, 255])
-        mask = cv2.inRange(hsv, lower, upper)
-        cv2.imshow(str(colors), mask)
-    
-    if colors == Color.GREEN:
-        lower = np.array([60 - 30, 100, 100])
-        upper = np.array([60 + 30, 255, 255])
-        mask = cv2.inRange(hsv, lower, upper)
-        cv2.imshow(str(colors), mask)
-
-    if colors == Color.BLUE:
-        print(cv2.cvtColor(np.uint8([[[0, 0, 255]]]), cv2.COLOR_BGR2HSV))
-        lower = np.array([80, 70, 70])
-        upper = np.array([140, 255, 255])
-        mask = cv2.inRange(hsv, lower, upper)
-        cv2.imshow(str(colors), mask)
+def color(color, hsv):
+    mask = cv2.inRange(hsv, LOW_THRESHOLD[color], HIGH_THRESHOLD[color])
+    cv2.imshow(str(color), mask)
 
 # Read the camera.
 cap = cv2.VideoCapture(0)
@@ -71,30 +55,15 @@ while(1):
     kernel = np.ones((5,5),np.uint8)
     frame = cv2.GaussianBlur(frame, (5,5), cv2.BORDER_DEFAULT)
     frame = cv2.morphologyEx(frame, cv2.MORPH_OPEN, kernel)
-   
 
     # Convert the camera feed to HSV.
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-
-    # Input thresholded color RGB value.
-    #red = np.uint8([[[255, 0, 0]]])
-
-    # Convert that color to HSV.
-    #hsv_red = cv2.cvtColor(red, cv2.COLOR_BGR2HSV)
-
-    # Set the upper and lower threshold with a offset that suits you.
-    #lower_red = np.array([150 - 30, 100, 100])
-    #upper_red = np.array([150 + 30, 255, 255])
-
-    # Make a mask with the converted camera feed and the thresholded values.
-    #red_mask = cv2.inRange(hsv, lower_red, upper_red)
 
     # Show the frames (maybe use numpy.concatenate).
     color(Color.RED, hsv)
     color(Color.GREEN, hsv)
     color(Color.BLUE, hsv)
-    #cv2.imshow("Normal", frame)
-    
+
 
     # Set variable k equal to keypressed.
     k = cv2.waitKey(1) & 0xFF
