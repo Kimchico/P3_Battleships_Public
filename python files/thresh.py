@@ -1,7 +1,7 @@
 # Imports
 import cv2
 import numpy as np
-from Colors import *
+from Colors import Color, LOW_THRESHOLD, HIGH_THRESHOLD
 
 # Converter (DOESNT WORK)
 """
@@ -40,6 +40,7 @@ def convert(image):
 
     return image
 """
+
 def color(color, hsv):
     mask = cv2.inRange(hsv, LOW_THRESHOLD[color], HIGH_THRESHOLD[color])
     cv2.imshow(str(color), mask)
