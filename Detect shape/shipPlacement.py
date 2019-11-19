@@ -1,24 +1,43 @@
-import pygame; import cv2; import numpy as np; import colorsys as cs
+import pygame; import cv2; import numpy as np;
+from blob import extract_blobs;
+
+def threshold_red(image):
+    result = image.copy()
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    lower = np.array([155,25,0])
+    upper = np.array([179,255,255])
+    mask = cv2.inRange(image, lower, upper)
+    #result = cv2.bitwise_and(result, result, mask=mask)
+    return mask
 
 
-def find_shapes(path) -> str:
-    image = cv2.imread(path)
-    kernel = np.ones((5,5),np.uint8)
-    image = cv2.GaussianBlur(image, (5, 5), cv2.BORDER_DEFAULT)
-    image = cv2.morphologyEx(image, cv2.MORPH_OPEN, kernel)
-    hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    hsv_values = cs.rgb_to_hsv(234, 33, 45)
-    mask = cv2.inRange(hsv_image, (hsv_values[0] - 10, hsv_values[1], hsv_values[2]),
-                      (hsv_values[0] + 50, 255, 255))
 
-    result = cv2.bitwise_and(image, image, mask=mask)
-    cv2.imshow("Original", image)
-    cv2.imshow("Mask", mask)
-    cv2.imshow("Bitmask", result)
+
+
+
+def find_shapes(path_image: str, path_template: str, threshold: float):
+    image = cv2.imread(path_image)
+    binary_image = threshold_red(image)
+    cv2.imshow("test", binary_image)
+    blobs = extract_blobs(binary_image)
+
+    min_value = (0, 0)
+    max_value = (0, 0)
+
+    for blob in blobs:
+        min_value = blob[0]
+        max_value = blob[-1]
+
+        yield (min_value, max_value)
+
+
+
+
 
 if __name__ == "__main__":
     # Processing goes here
-    find_shapes('Pictures/picture_2.png')
+    for test in find_shapes('Pictures/picture_2.png', 'Pictures/red.png',  1):
+        print(test)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
