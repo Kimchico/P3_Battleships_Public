@@ -42,7 +42,7 @@ int main(int argc, char *argv[]){
     // server_address.sin_addr.s_addr is the ip address of the machine which the Server.cpp is running on.
     // Windows: use ipconfig in cmd and set the inet_addr to your IPv4.
     
-    server_address.sin_addr.s_addr = inet_addr("172.24.216.58");
+    server_address.sin_addr.s_addr = inet_addr("172.20.10.3");
     server_address.sin_family = AF_INET;
     server_address.sin_port = htons(port);
     

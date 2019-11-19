@@ -46,7 +46,7 @@ def color(color, hsv):
     cv2.imshow(str(color), mask)
 
 # Read the camera.
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 
 # While loop that runs while true.
 while(1):
