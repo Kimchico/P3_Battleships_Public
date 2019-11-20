@@ -2,12 +2,10 @@ import pygame; import cv2; import numpy as np;
 from blob import extract_blobs;
 
 def threshold_red(image):
-    result = image.copy()
     image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     lower = np.array([155,25,0])
     upper = np.array([179,255,255])
     mask = cv2.inRange(image, lower, upper)
-    #result = cv2.bitwise_and(result, result, mask=mask)
     return mask
 
 
@@ -15,7 +13,7 @@ def threshold_red(image):
 
 
 
-def find_shapes(path_image: str, path_template: str, threshold: float):
+def find_shapes(path_image: str):
     image = cv2.imread(path_image)
     binary_image = threshold_red(image)
     cv2.imshow("test", binary_image)
@@ -36,7 +34,7 @@ def find_shapes(path_image: str, path_template: str, threshold: float):
 
 if __name__ == "__main__":
     # Processing goes here
-    for test in find_shapes('Pictures/picture_2.png', 'Pictures/red.png',  1):
+    for test in find_shapes('/Users/mikkelsangmeebaunsgaard/Repositories/P3_Battleships_Public/Detect shape/Pictures/Picture_3.jpg'):
         print(test)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
