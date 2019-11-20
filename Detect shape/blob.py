@@ -29,7 +29,5 @@ def extract_blobs(binary_image):
                 blobs.append(blob_pixels)
     return blobs
 
-if __name__ == "__main__":
-    print("omg")
 
 
