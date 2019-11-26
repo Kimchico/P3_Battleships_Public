@@ -15,7 +15,7 @@ image = cv2.imread('Pictures/Cropped.png')
 imageRGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 height, width, channels = image.shape
 size = width, height
-print()
+print(size)
 screen = pygame.display.set_mode(size)
 # START OF BLOB EXTRACTION
 def extract_blobs(binary_image):
@@ -87,7 +87,7 @@ def shape_positions(image,coord):
     height, width, channels = image.shape
     cubeWidth = width / 10
     cubeHeight = height / 10
-
+    print('Cube Width: ' + str(cubeWidth) + ' Cube Height: '+ str(cubeHeight))
     shapeXMin = coord[0][1]
     shapeYMin = coord[0][0]
     shapeXMax = coord[1][1]
@@ -105,9 +105,11 @@ def shape_positions(image,coord):
 
     for i in range(0,width,int(cubeWidth)):
         pygame.draw.line(screen, (0,0,0), (i,0), (i,width))
+        #print('Printing I: '+ str(i)+' ')
     for j in range(0,height,int(cubeHeight)):
         pygame.draw.line(screen, (0,0,0), (0,j), (height,j))
-    while (xMin * cubeWidth) < (shapeXMin + 20) and xMin <= 10:
+        #print('Printing J: '+ str(i)+' ')
+    while (xMin * cubeWidth) < (shapeXMin + 3) and xMin <= 10:
         #print('XMIN')
         #print(str(xMin * cubeWidth) + ' is smaller than ' + str(shapeXMin + 20))
         shapeColumnMin = xMin
@@ -115,23 +117,23 @@ def shape_positions(image,coord):
         xMin += 1
     xMin=0
     #print('STOP')
-    while (yMin * cubeHeight) < (shapeYMin + 20) and yMin <= 10:
+    while (yMin * cubeHeight) < (shapeYMin + 3) and yMin <= 10:
         #print('YMIN')
         #print(str(yMin * cubeHeight) + ' is smaller than ' + str(shapeYMin + 20))
         shapeRowMin = yMin
         #print(str(shapeRowMin))
         yMin += 1
     yMin=0
-    #print('STOP')
-    while ((xMax * cubeWidth) + 20) > shapeXMax  and xMax <= 10:
-        #print('XMAX')
-        #print(str(xMax * cubeWidth) + ' is bigger than ' + str(shapeXMax))
+    print('STOP')
+    while (xMax * cubeWidth) > shapeXMax  and xMax <= 10:
+        print('XMAX')
+        print(str(xMax * cubeWidth+3) + ' is bigger than ' + str(shapeXMax))
         shapeColumnMax = xMax
-        #print(str(shapeColumnMax))
+        print(str(shapeColumnMax))
         xMax -= 1
     xMax=0
     #print('STOP')
-    while ((yMax * cubeHeight) + 20) > shapeYMax  and yMax <= 10:
+    while ((yMax * cubeHeight) + 3) > shapeYMax  and yMax <= 10:
         #print('YMAX')
         #print(str(yMax * cubeHeight) + ' is bigger than ' + str(shapeYMax))
         shapeRowMax = yMax
@@ -144,6 +146,7 @@ def shape_positions(image,coord):
     #print('The shape is between rows ' + str(shapeRowMin) + ' and ' + str(shapeRowMax) + ' and between columns ' + str(shapeColumnMin) + ' and '+ str(shapeColumnMax))
     #print('The shape is between vertical lines ' + str(shapeRowMin)+ ' and '+ str(shapeRowMax) +' and column '+ str(shapeColumnMax))
     yield(shapeColumnMin,shapeColumnMax,shapeRowMin,shapeRowMax)
+    print(str(shapeColumnMin) + ' ' + str(shapeColumnMax)+ ' '+str(shapeRowMin)+ ' '+str(shapeRowMax))
 #CREATING THE ARRAY FOR THE PLACEMENT
 rows, cols = (10,10)
 placementArr = [[0 for i in range(cols)] for j in range(rows)]
@@ -169,6 +172,7 @@ def fill_array(MinMax,arr):
 for point in find_shapes('Pictures/Cropped.png'):
     print(point)
     for MinMax in shape_positions(image,point):
+        print(MinMax)
         fill_array(MinMax,placementArr)
 #PRINTING THE ARRAY< FOR DEBUGGING
 for row in placementArr:

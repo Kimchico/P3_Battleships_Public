@@ -17,6 +17,7 @@ def mouseRGB(event,x,y,flags,param):
 
 # Read an image, a window and bind the function to window
 image = cv2.imread("Pictures/Cropped.png")
+
 imageHSV = cv2.cvtColor(image,cv2.COLOR_BGR2HSV)
 cv2.namedWindow('mouseRGB')
 cv2.setMouseCallback('mouseRGB',mouseRGB)
