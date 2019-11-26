@@ -11,10 +11,11 @@ pygame.init()
 #Size_3_horizontal.jpg
 #Size_4_horizontal.png
 #Size__4_vertical.jpg
-image = cv2.imread('Pictures/all_sizes.jpg')
+image = cv2.imread('Pictures/Cropped.png')
 imageRGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 height, width, channels = image.shape
 size = width, height
+print()
 screen = pygame.display.set_mode(size)
 # START OF BLOB EXTRACTION
 def extract_blobs(binary_image):
@@ -49,10 +50,10 @@ def extract_blobs(binary_image):
     return blobs
 def threshold_red(image):
     image = cv2.GaussianBlur(image, (5,5),cv2.BORDER_DEFAULT)
-    image_2 = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    lower = np.array([0,250,250])
-    upper = np.array([0,255,255])
-    mask = cv2.inRange(image_2, lower, upper)
+    #image_2 = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    lower = np.array([0, 0, 80])
+    upper = np.array([25, 20, 255])
+    mask = cv2.inRange(image, lower, upper)
     return mask
 
 
@@ -103,9 +104,9 @@ def shape_positions(image,coord):
 
 
     for i in range(0,width,int(cubeWidth)):
-        pygame.draw.line(screen, (255,0,0), (i,0), (i,width))
+        pygame.draw.line(screen, (0,0,0), (i,0), (i,width))
     for j in range(0,height,int(cubeHeight)):
-        pygame.draw.line(screen, (255,0,0), (0,j), (height,j))
+        pygame.draw.line(screen, (0,0,0), (0,j), (height,j))
     while (xMin * cubeWidth) < (shapeXMin + 20) and xMin <= 10:
         #print('XMIN')
         #print(str(xMin * cubeWidth) + ' is smaller than ' + str(shapeXMin + 20))
@@ -143,13 +144,35 @@ def shape_positions(image,coord):
     #print('The shape is between rows ' + str(shapeRowMin) + ' and ' + str(shapeRowMax) + ' and between columns ' + str(shapeColumnMin) + ' and '+ str(shapeColumnMax))
     #print('The shape is between vertical lines ' + str(shapeRowMin)+ ' and '+ str(shapeRowMax) +' and column '+ str(shapeColumnMax))
     yield(shapeColumnMin,shapeColumnMax,shapeRowMin,shapeRowMax)
+#CREATING THE ARRAY FOR THE PLACEMENT
+rows, cols = (10,10)
+placementArr = [[0 for i in range(cols)] for j in range(rows)]
+#FUNCTION THAT WOULD MODIFY THE ARRAY ACCORDING TO THE SHAPES
+def fill_array(MinMax,arr):
+    Vmin = MinMax[0]
+    Vmax = MinMax[1]
+    Hmin = MinMax[2]
+    Hmax = MinMax[3]
+    if Vmax - Vmin == 1:
+        if Hmax - Hmin == 1:
+            arr[Hmin][Vmin] = 1
+        else:
+            for i in range(Hmin, Hmax):
+                arr[i][Vmin] = 1
+
+    if Hmax - Hmin == 1:
+        for j in range(Vmin, Vmax):
+            arr[Hmin][j] = 1
 
 
-#FINDING THE POSITION OF EACH SHAPE RECURSIVLY
-for point in find_shapes('Pictures/all_sizes.jpg'):
+#FINDING THE POSITION OF EACH SHAPE RECURSIVLY AND CREATING THE ARRAY
+for point in find_shapes('Pictures/Cropped.png'):
+    print(point)
     for MinMax in shape_positions(image,point):
-        print(str(MinMax[0])+' '+str(MinMax[1])+' '+str(MinMax[2])+' '+str(MinMax[3]))
-
+        fill_array(MinMax,placementArr)
+#PRINTING THE ARRAY< FOR DEBUGGING
+for row in placementArr:
+    print(row)
 pyImage = cvimage_to_pygame(imageRGB)
 screen.blit(pyImage, (0, 0))
 
@@ -160,3 +183,6 @@ while True:
             sys.exit()
 
     pygame.display.flip()
+
+
+
