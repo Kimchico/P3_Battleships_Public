@@ -11,8 +11,9 @@ pygame.init()
 #Size_3_horizontal.jpg
 #Size_4_horizontal.png
 #Size__4_vertical.jpg
-image = cv2.imread('Pictures/Cropped.png')
+image = cv2.imread('Pictures/Circle_Hit.jpg')
 imageRGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+image2 = cv2.imread('Pictures/Cropped.png')
 height, width, channels = image.shape
 size = width, height
 print(size)
@@ -48,20 +49,24 @@ def extract_blobs(binary_image):
                     blob_pixels.append(queue.pop(0))
                 blobs.append(blob_pixels)
     return blobs
-def threshold_red(image):
+def threshold_red(image,bmin,gmin,rmin,bmax,gmax,rmax):
     image = cv2.GaussianBlur(image, (5,5),cv2.BORDER_DEFAULT)
     #image_2 = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    lower = np.array([0, 0, 80])
-    upper = np.array([25, 20, 255])
+    #lower = np.array([0, 0, 80]) FOR ACTUAL CROPPED PICTURE
+    #upper = np.array([25, 20, 255])
+    #lower = np.array([32,25,230]) FOR PHOTOSHOPED
+    #upper = np.array([38,35,240])
+    lower = np.array([bmin,gmin,rmin])
+    upper = np.array([bmax,gmax,rmax])
     mask = cv2.inRange(image, lower, upper)
     return mask
 
 
 
 
-def find_shapes(path_image: str):
+def find_shapes(path_image: str,bmin,gmin,rmin,bmax,gmax,rmax):
     image = cv2.imread(path_image)
-    binary_image = threshold_red(image)
+    binary_image = threshold_red(image,bmin,gmin,rmin,bmax,gmax,rmax)
     cv2.imshow("Display window", binary_image);
     blobs = extract_blobs(binary_image)
 
@@ -124,12 +129,12 @@ def shape_positions(image,coord):
         #print(str(shapeRowMin))
         yMin += 1
     yMin=0
-    print('STOP')
+    #print('STOP')
     while (xMax * cubeWidth) > shapeXMax  and xMax <= 10:
-        print('XMAX')
-        print(str(xMax * cubeWidth+3) + ' is bigger than ' + str(shapeXMax))
+        #print('XMAX')
+        #print(str(xMax * cubeWidth+3) + ' is bigger than ' + str(shapeXMax))
         shapeColumnMax = xMax
-        print(str(shapeColumnMax))
+        #print(str(shapeColumnMax))
         xMax -= 1
     xMax=0
     #print('STOP')
@@ -150,6 +155,7 @@ def shape_positions(image,coord):
 #CREATING THE ARRAY FOR THE PLACEMENT
 rows, cols = (10,10)
 placementArr = [[0 for i in range(cols)] for j in range(rows)]
+attackArr = [[0 for i in range(cols)] for j in range(rows)]
 #FUNCTION THAT WOULD MODIFY THE ARRAY ACCORDING TO THE SHAPES
 def fill_array(MinMax,arr):
     Vmin = MinMax[0]
@@ -169,14 +175,24 @@ def fill_array(MinMax,arr):
 
 
 #FINDING THE POSITION OF EACH SHAPE RECURSIVLY AND CREATING THE ARRAY
-for point in find_shapes('Pictures/Cropped.png'):
-    print(point)
+for point in find_shapes('Pictures/Circle_Hit.jpg',32,25,230,38,35,240):
+
     for MinMax in shape_positions(image,point):
-        print(MinMax)
-        fill_array(MinMax,placementArr)
+
+        fill_array(MinMax,attackArr)
+for point2 in find_shapes('Pictures/Cropped.png',0, 0, 80,25, 20, 255):
+    print(point2)
+    for MinMax2 in shape_positions(image2,point2):
+
+        fill_array(MinMax2,placementArr)
 #PRINTING THE ARRAY< FOR DEBUGGING
-for row in placementArr:
+for row in attackArr:
     print(row)
+print('\n')
+print('\n')
+print('\n')
+for row2 in placementArr:
+    print(row2)
 pyImage = cvimage_to_pygame(imageRGB)
 screen.blit(pyImage, (0, 0))
 
