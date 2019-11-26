@@ -142,15 +142,13 @@ def shape_positions(image,coord):
     #print('The shape starts on horizontal line ' + str(shapeRowMin) + ' and ends in horizontal line ' + str(shapeRowMax))
     #print('The shape is between rows ' + str(shapeRowMin) + ' and ' + str(shapeRowMax) + ' and between columns ' + str(shapeColumnMin) + ' and '+ str(shapeColumnMax))
     #print('The shape is between vertical lines ' + str(shapeRowMin)+ ' and '+ str(shapeRowMax) +' and column '+ str(shapeColumnMax))
-    print('first vertical line : '+str(shapeColumnMin))
-    print('second vertical line : '+str(shapeColumnMax))
-    print('first horizontal line : '+str(shapeRowMin))
-    print('second horizontal line : '+str(shapeRowMax) + '\n')
+    yield(shapeColumnMin,shapeColumnMax,shapeRowMin,shapeRowMax)
 
 
-
+#FINDING THE POSITION OF EACH SHAPE RECURSIVLY
 for point in find_shapes('Pictures/all_sizes.jpg'):
-    shape_positions(image,point)
+    for MinMax in shape_positions(image,point):
+        print(str(MinMax[0])+' '+str(MinMax[1])+' '+str(MinMax[2])+' '+str(MinMax[3]))
 
 pyImage = cvimage_to_pygame(imageRGB)
 screen.blit(pyImage, (0, 0))
