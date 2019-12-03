@@ -33,9 +33,9 @@ def normalThreshold(image, color : str):
         mask = cv2.inRange(image, np.array([197, 80, 60]), np.array([237, 121, 102]))
     return mask
 
-def adaptiveMean(image):
-    mask =  cv2.adaptiveThreshold(grayImage, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2)
-    return mask
+#def adaptiveMean(image):
+ #   mask =  cv2.adaptiveThreshold(grayImage, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2)
+  #  return mask
 
 #maybe implement otsu method on different color channels?
 
