@@ -9,6 +9,9 @@ image = cv2.imread('Pictures/test_2.jpg')
 cv2.imshow('original', image)
 cv2.imshow('calibrate', image_calibration)
 
+# Victors cap settings below:
+#cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
+#cap.set(cv2.CAP_PROP_EXPOSURE, -3)
 
 def extract_blobs(binary_image):
     blobs = []
