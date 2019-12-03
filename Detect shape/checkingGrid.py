@@ -11,7 +11,7 @@ pygame.init()
 #Size_3_horizontal.jpg
 #Size_4_horizontal.png
 #Size__4_vertical.jpg
-image = cv2.imread('Pictures/Cropped.png')
+image = cv2.imread('Pictures/Cropped_2.jpg')
 imageRGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 height, width, channels = image.shape
 size = width, height
@@ -169,7 +169,7 @@ def fill_array(MinMax,arr):
 
 
 #FINDING THE POSITION OF EACH SHAPE RECURSIVLY AND CREATING THE ARRAY
-for point in find_shapes('Pictures/Cropped.png'):
+for point in find_shapes('Pictures/Cropped_2.jpg'):
     print(point)
     for MinMax in shape_positions(image,point):
         print(MinMax)

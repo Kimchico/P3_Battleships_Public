@@ -4,8 +4,8 @@ import pygame
 # from blob import extract_blobs;
 
 
-image_calibration = cv2.imread('C:/Users/David/Desktop/whiteonblack.jpg')
-image = cv2.imread('C:/Users/David/Desktop/worse.jpg')
+image_calibration = cv2.imread('Pictures/gridBlob.jpg')
+image = cv2.imread('Pictures/test_2.jpg')
 cv2.imshow('original', image)
 cv2.imshow('calibrate', image_calibration)
 
@@ -74,7 +74,7 @@ print(points_toCrop)
 
 offset = 5
 crop_img = image[points_toCrop[0][0][0]-offset:points_toCrop[0][1][0]+offset, points_toCrop[0][0][1]-offset:points_toCrop[0][1][1]+offset]
-cv2.imwrite('C:/Users/David/Desktop/Cropped.jpg', crop_img)
+cv2.imwrite('Pictures/Cropped_2.jpg', crop_img)
 
 cv2.waitKey()
 cv2.destroyAllWindows()
