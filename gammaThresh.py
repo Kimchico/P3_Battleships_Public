@@ -2,12 +2,12 @@ import cv2
 import numpy as np
 from blob import extract_blobs
 
-image = cv2.imread("Pictures/red_2.jpg")
+image = cv2.imread("Pictures/Cropped_2.jpg")
 
 def gammaCorrection(image):
     image = cv2.GaussianBlur(image, (5, 5), cv2.BORDER_DEFAULT)
     gammaImage = np.zeros(image.shape, image.dtype)
-
+    
     for y in range(image.shape[0]):
         for x in range(image.shape[1]):
             for c in range(image.shape[2]):
@@ -25,17 +25,17 @@ def gammaCorrection(image):
     return gammaImage
 
 def normalThreshold(image, color : str):
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2YUV)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     cv2.imshow("YUV color space", image)
     if color == "red":
-        mask = cv2.inRange(image, np.array([20, 20, 220]), np.array([50, 50, 255]))
+        mask = cv2.inRange(image, np.array([0, 75, 75]), np.array([3, 255, 255]))
     elif color == "green":
-        mask = cv2.inRange(image, np.array([0, 0, 0]), np.array([140, 255, 160]))
+        mask = cv2.inRange(image, np.array([45, 75, 75]), np.array([60, 255, 255]))
     return mask
 
-def adaptiveMean(image):
-    mask =  cv2.adaptiveThreshold(grayImage, 255, cv2.ADAPTIVE_THRESH_MEAN_C or cv2.otsu, cv2.THRESH_BINARY, 11, 2)
-    return mask
+#def adaptiveMean(image):
+ #   mask =  cv2.adaptiveThreshold(grayImage, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2)
+  #  return mask
 
 #maybe implement otsu method on different color channels?
 
@@ -48,6 +48,5 @@ def findBlobs(image):
 
 findBlobs(normalThreshold(gammaCorrection(image), "red"))
 cv2.imshow("Normal mask", normalThreshold(gammaCorrection(image), "red"))
-cv2.imshow("Mean mask", adaptiveMean(gammaCorrection(image)))
 cv2.waitKey(0)
 cv2.destroyAllWindows()

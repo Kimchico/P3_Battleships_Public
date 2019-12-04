@@ -28,6 +28,3 @@ def extract_blobs(binary_image):
                     blob_pixels.append(queue.pop(0))
                 blobs.append(blob_pixels)
     return blobs
-
-
-
