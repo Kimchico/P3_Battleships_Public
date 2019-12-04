@@ -7,7 +7,7 @@ image = cv2.imread("Pictures/Cropped_2.jpg")
 def gammaCorrection(image):
     image = cv2.GaussianBlur(image, (5, 5), cv2.BORDER_DEFAULT)
     gammaImage = np.zeros(image.shape, image.dtype)
-    
+
     for y in range(image.shape[0]):
         for x in range(image.shape[1]):
             for c in range(image.shape[2]):

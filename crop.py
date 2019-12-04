@@ -6,8 +6,8 @@ import pygame
 
 image_calibration = cv2.imread('Pictures/gridBlob.jpg')
 image = cv2.imread('Pictures/test_2.jpg')
-cv2.imshow('original', image)
-cv2.imshow('calibrate', image_calibration)
+#cv2.imshow('original', image)
+#cv2.imshow('calibrate', image_calibration)
 
 # Victors cap settings below:
 #cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
@@ -51,7 +51,7 @@ def threshold(image):
     lower = np.array([200, 200, 200])
     upper = np.array([255, 255, 255])
     mask = cv2.inRange(image, lower, upper)
-    cv2.imshow('mask', mask)
+    #cv2.imshow('mask', mask)
     return mask
 
 
@@ -68,16 +68,17 @@ def find_shapes(image):
 
         yield (min_value, max_value)
 
-points_toCrop = []
+def crop(image_calibration, imageToCrop, imageName : str):
+    points_toCrop = []
 
-for points in find_shapes(image_calibration):
-    points_toCrop.append(points)
+    for points in find_shapes(image_calibration):
+        points_toCrop.append(points)
 
-print(points_toCrop)
+    offset = 5
+    crop_img = image[points_toCrop[0][0][0]-offset:points_toCrop[0][1][0]+offset, points_toCrop[0][0][1]-offset:points_toCrop[0][1][1]+offset]
+    cv2.imwrite('Pictures/' + imageName, crop_img)
 
-offset = 5
-crop_img = image[points_toCrop[0][0][0]-offset:points_toCrop[0][1][0]+offset, points_toCrop[0][0][1]-offset:points_toCrop[0][1][1]+offset]
-cv2.imwrite('Pictures/Cropped_2.jpg', crop_img)
 
-cv2.waitKey()
-cv2.destroyAllWindows()
+if __name__ == '__main__':
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
