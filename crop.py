@@ -1,11 +1,17 @@
 import cv2
 import numpy as np
-import pygame;
+import pygame
 # from blob import extract_blobs;
 
 
-image = cv2.imread('C:/Users/David/Desktop/P3/v3.png')
-cv2.imshow('original', image)
+image_calibration = cv2.imread('Pictures/gridBlob.jpg')
+image = cv2.imread('Pictures/test_2.jpg')
+#cv2.imshow('original', image)
+#cv2.imshow('calibrate', image_calibration)
+
+# Victors cap settings below:
+#cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
+#cap.set(cv2.CAP_PROP_EXPOSURE, -3)
 
 def extract_blobs(binary_image):
     blobs = []
@@ -40,12 +46,12 @@ def extract_blobs(binary_image):
 
 
 def threshold(image):
-    image = cv2.GaussianBlur(image, (9,9), cv2.BORDER_DEFAULT)
-    image_2 = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    lower = np.array([0, 0, 0])
-    upper = np.array([1, 1, 1])
-    mask = cv2.inRange(image_2, lower, upper)
-    cv2.imshow('mask', mask)
+    image = cv2.GaussianBlur(image, (17, 17), cv2.BORDER_DEFAULT)
+    #image_2 = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    lower = np.array([200, 200, 200])
+    upper = np.array([255, 255, 255])
+    mask = cv2.inRange(image, lower, upper)
+    #cv2.imshow('mask', mask)
     return mask
 
 
@@ -62,14 +68,17 @@ def find_shapes(image):
 
         yield (min_value, max_value)
 
-points_toCrop = []
+def crop(image_calibration, imageToCrop, imageName : str):
+    points_toCrop = []
 
-for points in find_shapes(image):
-    points_toCrop.append(points)
+    for points in find_shapes(image_calibration):
+        points_toCrop.append(points)
 
-print(points_toCrop)
-crop_img = image[points_toCrop[0][1][0]:points_toCrop[1][0][0], points_toCrop[0][1][1]:points_toCrop[1][0][1]]
-cv2.imshow('Cropped', crop_img)
+    offset = 5
+    crop_img = image[points_toCrop[0][0][0]-offset:points_toCrop[0][1][0]+offset, points_toCrop[0][0][1]-offset:points_toCrop[0][1][1]+offset]
+    cv2.imwrite('Pictures/' + imageName, crop_img)
 
-cv2.waitKey()
-cv2.destroyAllWindows()
+
+if __name__ == '__main__':
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
