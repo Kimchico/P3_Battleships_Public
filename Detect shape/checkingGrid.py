@@ -1,6 +1,8 @@
 import sys, pygame, cv2, numpy as np
 from pygame import Color
 
+
+
 pygame.init()
 #all_sizes.jpg
 #size2_v1.jpg
@@ -18,6 +20,7 @@ height, width, channels = image.shape
 size = width, height
 print(size)
 screen = pygame.display.set_mode(size)
+
 # START OF BLOB EXTRACTION
 def extract_blobs(binary_image):
     blobs = []
@@ -49,6 +52,7 @@ def extract_blobs(binary_image):
                     blob_pixels.append(queue.pop(0))
                 blobs.append(blob_pixels)
     return blobs
+
 def threshold_red(image,bmin,gmin,rmin,bmax,gmax,rmax):
     image = cv2.GaussianBlur(image, (5,5),cv2.BORDER_DEFAULT)
     #image_2 = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
@@ -67,7 +71,7 @@ def threshold_red(image,bmin,gmin,rmin,bmax,gmax,rmax):
 def find_shapes(path_image: str,bmin,gmin,rmin,bmax,gmax,rmax):
     image = cv2.imread(path_image)
     binary_image = threshold_red(image,bmin,gmin,rmin,bmax,gmax,rmax)
-    cv2.imshow("Display window", binary_image);
+    cv2.imshow("Display window", binary_image)
     blobs = extract_blobs(binary_image)
 
     min_value = (0, 0)
@@ -81,12 +85,14 @@ def find_shapes(path_image: str,bmin,gmin,rmin,bmax,gmax,rmax):
 #END OF BLOB EXTRACTION
 
 #CONVERTING CV IMAGE TO PYGAME IMAGE
+
 def cvimage_to_pygame(image):
     """Convert cvimage into a pygame image"""
     return pygame.image.frombuffer(image.tostring(), image.shape[1::-1],
                                    "RGB")
 
 #DETECTING THE LINES THAT CONTAIN SHIPS
+
 def shape_positions(image,coord):
 
     height, width, channels = image.shape
@@ -152,11 +158,15 @@ def shape_positions(image,coord):
     #print('The shape is between vertical lines ' + str(shapeRowMin)+ ' and '+ str(shapeRowMax) +' and column '+ str(shapeColumnMax))
     yield(shapeColumnMin,shapeColumnMax,shapeRowMin,shapeRowMax)
     print(str(shapeColumnMin) + ' ' + str(shapeColumnMax)+ ' '+str(shapeRowMin)+ ' '+str(shapeRowMax))
+
 #CREATING THE ARRAY FOR THE PLACEMENT
+
 rows, cols = (10,10)
 placementArr = [[0 for i in range(cols)] for j in range(rows)]
 attackArr = [[0 for i in range(cols)] for j in range(rows)]
+
 #FUNCTION THAT WOULD MODIFY THE ARRAY ACCORDING TO THE SHAPES
+
 def fill_array(MinMax,arr):
     Vmin = MinMax[0]
     Vmax = MinMax[1]
@@ -175,6 +185,7 @@ def fill_array(MinMax,arr):
 
 
 #FINDING THE POSITION OF EACH SHAPE RECURSIVLY AND CREATING THE ARRAY
+
 for point in find_shapes('Pictures/Circle_Hit.jpg',32,25,230,38,35,240):
 
     for MinMax in shape_positions(image,point):
@@ -185,7 +196,9 @@ for point2 in find_shapes('Pictures/Cropped.png',0, 0, 80,25, 20, 255):
     for MinMax2 in shape_positions(image2,point2):
 
         fill_array(MinMax2,placementArr)
+
 #PRINTING THE ARRAY< FOR DEBUGGING
+
 for row in attackArr:
     print(row)
 print('\n')
