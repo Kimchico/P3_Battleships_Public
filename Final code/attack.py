@@ -3,7 +3,7 @@ import numpy as np
 def attack(coord,feedArray,placementArray,shipsArray):
     a=coord[0]
     b=coord[1]
-    for p in placementArray:
+    for p in placementArray: #this might need to be modified
         if p[a][b]==1:
             feedArray[a][b]==2 #2 is shot and hit
         if p[a][b]==0:
