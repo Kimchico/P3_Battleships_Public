@@ -7,10 +7,11 @@ image = cv2.imread("/Users/mikkelsangmeebaunsgaard/Desktop/blobs.jpg")
 
 def calibration(image_to_crop):
     # Blur image
+    blurred_image = cv2.cvtColor(image_to_crop, cv2.COLOR_BGR2RGB)
     blurred_image = cv2.GaussianBlur(image_to_crop, (5, 5), cv2.BORDER_DEFAULT)
 
     # Threshold and mask white
-    lower_white = np.array([110, 110, 110]); upper_white = np.array([255, 255, 255])
+    lower_white = np.array([100, 120, 50]); upper_white = np.array([255, 255, 255])
     binary_image = cv2.inRange(blurred_image, lower_white, upper_white)
 
     cv2.imshow("mask", binary_image)
@@ -44,8 +45,8 @@ def calibration(image_to_crop):
 
 
 video = cv2.VideoCapture(1)
-#video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
-#video.set(cv2.CAP_PROP_EXPOSURE, -3)
+video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
+video.set(cv2.CAP_PROP_EXPOSURE, -3)
 temp = 0
 while True:
     check, frame = video.read()
@@ -55,7 +56,8 @@ while True:
 
     temp += 1
 
-positions = calibration(image)
+cv2.imshow("frame", frame)
+positions = calibration(frame)
 print(positions)
 video.release()
 cv2.waitKey(0)
