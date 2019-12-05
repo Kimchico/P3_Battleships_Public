@@ -14,18 +14,47 @@ def detectShapes(image, player : int, type : int, cord):
 
     if player == 1:
         if type == 0:
-            cropped_image = image[cord[1][0][0][1]:cord[1][0][1][1], cord[1][0][0][0]:cord[1][0][1][0]]
-            print(cord[1][0][0][1], cord[1][0][1][1], cord[1][0][0][0], cord[1][0][1][0])
-            cv2.imshow("Cropped", cropped_image)
-            binary_image = cv2.inRange(cropped_image, lower_red, higher_red)
+            cropped_image = image[cord[1][0][0][0]:cord[1][0][1][0], cord[1][0][0][1]:cord[1][0][1][1]]
+            #binary_image = cv2.inRange(cropped_image, lower_red, higher_red)
             ship_positions = extract_blobs(binary_image)
+            cv2.imshow("Cropped", binary_image)
+
         if type == 1:
-            cropped_image = image[cord[0][1][0][1]:cord[0][1][1][1], cord[0][1][0][0]:cord[0][1][1][0]]
-            cv2.imshow("Cropped", cropped_image)
+            cropped_image = image[cord[0][1][0][0]:cord[0][1][1][0], cord[0][1][0][1]:cord[0][1][1][1]]
             binary_image = cv2.inRange(cropped_image, lower_red, higher_red)
             ship_positions = extract_blobs(binary_image)
+            cv2.imshow("Cropped", binary_image)
 
-detectShapes(cv2.imread("/Users/mikkelsangmeebaunsgaard/Desktop/test_1.jpg"), 1, 0, positions)
+    elif player == 2:
+        if type == 0:
+            cropped_image = image[cord[1][1][0][0]:cord[1][1][1][0], cord[1][1][0][1]:cord[1][1][1][1]]
+            #binary_image = cv2.inRange(cropped_image, lower_red, higher_red)
+            ship_positions = extract_blobs(binary_image)
+            cv2.imshow("Cropped", binary_image)
 
+        if type == 1:
+            cropped_image = image[cord[0][0][0][0]:cord[0][0][1][0], cord[0][0][0][1]:cord[0][0][1][1]]
+            #binary_image = cv2.inRange(cropped_image, lower_red, higher_red)
+            ship_positions = extract_blobs(binary_image)
+            cv2.imshow("Cropped", binary_image)
+
+video = cv2.VideoCapture(1)
+#cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
+#cap.set(cv2.CAP_PROP_EXPOSURE, -3)
+
+while True:
+    check, frame = video.read()
+    cv2.imshow("Frame", fram)
+    key = cv2.waitKey(1)
+    if key == ord('q'):
+        break
+
+
+
+#print(positions[1][0][0][0], positions[1][0][1][0], positions[1][0][0][1], positions[1][0][1][1])
+#cropped_image = frame[positions[1][0][0][0]:positions[1][0][1][0], positions[1][0][0][1]:positions[1][0][1][1]]
+#cv2.imshow(",", cropped_image)
+detectShapes(frame, 2, 0, positions)
+video.release()
 cv2.waitKey(0)
 cv2.destroyAllWindows()
