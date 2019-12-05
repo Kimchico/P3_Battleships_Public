@@ -16,7 +16,7 @@ def mouseRGB(event,x,y,flags,param):
         print("Coordinates of pixel: X: ",x,"Y: ",y)
 
 # Read an image, a window and bind the function to window
-image = cv2.imread("Pictures/Cropped.png")
+image = cv2.imread("Pictures/Circle_4.jpg")
 
 imageHSV = cv2.cvtColor(image,cv2.COLOR_BGR2HSV)
 cv2.namedWindow('mouseRGB')
