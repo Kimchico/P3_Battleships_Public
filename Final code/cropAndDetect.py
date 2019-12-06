@@ -7,38 +7,20 @@ from calibration import *
 # Player = what player it should do its operations for
 # Type = defines if it is the attack or placement grid it should make
 # Coordinates = the coordinate set it should derive its coordinates for
-def detectShapes(image, player : int, type : int, cord):
-    image = cv2.GaussianBlur(image, (5, 5), cv2.BORDER_DEFAULT)
-    #lower_red = np.array([0, 0, 80])
-    #higher_red = np.array([25, 20, 255])
 
-    if player == 1:
-        if type == 0:
-            cropped_image = image[cord[0][0][0][1]:cord[0][0][1][1], cord[0][0][0][0]:cord[0][0][1][0]]
-            #binary_image = cv2.inRange(cropped_image, lower_red, higher_red)
-            #ship_positions = extract_blobs(binary_image)
-            cv2.imshow("Cropped", cropped_image)
+pg1 = []; pg2 = []; ag1 = []; ag2 = []
+background_images = []; shapes = []
 
-        if type == 1:
-            cropped_image = image[cord[1][0][0][1]:cord[0][0][1][1], cord[1][0][0][0]:cord[0][1][1][0]]
-            #binary_image = cv2.inRange(cropped_image, lower_red, higher_red)
-            #ship_positions = extract_blobs(binary_image)
-            cv2.imshow("Cropped", cropped_image)
 
-    elif player == 2:
-        if type == 0:
-            cropped_image = image[cord[0][1][0][1]:cord[0][1][1][1], cord[0][1][0][0]:cord[0][1][1][0]]
-            #binary_image = cv2.inRange(cropped_image, lower_red, higher_red)
-            #ship_positions = extract_blobs(binary_image)
-            cv2.imshow("Cropped", cropped_image)
+def gridPositions(pg1, pg2, ag1, ag2):
+    pg1.append((positions[0][0][0][1], positions[0][0][1][1],  positions[0][0][0][0], positions[0][0][1][0]))
+    pg2.append((positions[0][1][0][1], positions[0][1][1][1], positions[0][1][0][0], positions[0][1][1][0]))
+    ag1.append((positions[1][0][0][1], positions[0][0][1][1], positions[1][0][0][0], positions[0][1][1][0]))
+    ag2.append((positions[1][1][0][1], positions[1][1][1][1], positions[1][1][0][0], positions[1][1][1][0]))
 
-        if type == 1:
-            cropped_image = image[cord[1][1][0][1]:cord[1][1][1][1], cord[1][1][0][0]:cord[1][1][1][0]]
-            #binary_image = cv2.inRange(cropped_image, lower_red, higher_red)
-            #ship_positions = extract_blobs(binary_image)
-            cv2.imshow("Cropped", cropped_image)
-
-    cv2.imwrite("Pictures/cropped_witships.jpg", cropped_image)
+def cropGrid(image, grid):
+    cropped_image = image[grid[0][0]:grid[0][1], grid[0][2]:grid[0][3]]
+    return cropped_image
 
 video = cv2.VideoCapture(1)
 #video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
@@ -47,20 +29,46 @@ video = cv2.VideoCapture(1)
 #video.set(cv2.CAP_PROP_FRAME_HEIGHT, 720);
 #video.set(3, 1920)
 #video.set(4, 900)
+gridPositions(pg1, pg2, ag1, ag2)
 
+
+print("Take image WITHOUT any shapes in")
 while True:
     check, frame = video.read()
     cv2.imshow("Frame", frame)
     key = cv2.waitKey(1)
     if key == ord('q'):
         break
+cv2.destroyAllWindows()
 
+background_images.append(cropGrid(frame, pg1))
+background_images.append(cropGrid(frame, pg2))
+background_images.append(cropGrid(frame, ag1))
+background_images.append(cropGrid(frame, ag2))
 
-cv2.imwrite("Pictures/frame_2.jpg", frame)
-detectShapes(frame, 1, 0, positions)
-#detectShapes(frame, 1, 1, positions)
-#detectShapes(frame, 2, 0, positions)
-#detectShapes(frame, 2, 1, positions)
+print("Place ships")
+while True:
+    check, frame = video.read()
+    cv2.imshow("Frame", frame)
+    key = cv2.waitKey(1)
+    if key == ord('q'):
+        break
+shapes.append(cropGrid(frame, pg1))
+shapes.append(cropGrid(frame, pg2))
+shapes.append(cropGrid(frame, ag1))
+shapes.append(cropGrid(frame, ag2))
+
+cv2.imshow("1", background_images[0])
+cv2.imshow("2", background_images[1])
+cv2.imshow("3", background_images[2])
+cv2.imshow("4", background_images[3])
+
+cv2.imshow("11", shapes[0])
+cv2.imshow("22", shapes[1])
+cv2.imshow("33", shapes[2])
+cv2.imshow("44", shapes[3])
+
+#cv2.imwrite("Pictures/frame_2.jpg", frame)
 
 video.release()
 cv2.waitKey(0)

@@ -3,7 +3,8 @@ import cv2
 import numpy as np
 from blob import extract_blobs
 
-#image = cv2.imread("/Users/mikkelsangmeebaunsgaard/Desktop/mikkelTHIS.jpg"
+image = cv2.imread("/Users/mikkelsangmeebaunsgaard/Desktop/mikkelTHIS.jpg")
+
 def coordinates(blobs):
     coordinates = []
     for blob in blobs:
