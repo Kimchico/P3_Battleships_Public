@@ -5,7 +5,7 @@ import cv2
 back = cv2.imread('Pictures/picture4.png')
 back_grey = cv2.cvtColor(back, cv2.COLOR_BGR2GRAY)
 back_greyB = cv2.GaussianBlur(back_grey, (7, 7), 0)
-current = cv2.imread('Pictures/size2_v2.jpg')
+current = cv2.imread('Pictures/all_sizes.jpg')
 current_grey = cv2.cvtColor(current, cv2.COLOR_BGR2GRAY)
 current_greyB = cv2.GaussianBlur(current_grey,(7,7),0)
 
