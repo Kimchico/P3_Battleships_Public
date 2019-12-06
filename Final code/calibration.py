@@ -39,9 +39,6 @@ def calibration(image_to_crop):
         if len(blob) > 50000:
             correct_blobs.append(blob)
 
-    for blob in correct_blobs:
-        print(blob[0], blob[-1])
-
     coord = coordinates(correct_blobs)
 
     #for blob in image_blobs:
@@ -61,21 +58,26 @@ def calibration(image_to_crop):
 
 
 video = cv2.VideoCapture(1)
-video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
-video.set(cv2.CAP_PROP_EXPOSURE, -3)
+#video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
+#video.set(cv2.CAP_PROP_EXPOSURE, -3)
+#video.set(CV_CAP_PROP_FRAME_WIDTH, 1280);
+#video.set(CV_CAP_PROP_FRAME_HEIGHT, 720);
+video.set(3, 1920)
+video.set(4, 900)
 
 temp = 0
 while True:
     check, frame = video.read()
-
     if temp == 20:
+        cv2.imwrite("Pictures/frame.jpg", frame)
         break
 
     temp += 1
 
 #cv2.imshow("frame", frame)
-#cv2.imwrite("/Users/mikkelsangmeebaunsgaard/Desktop/redblobs.jpg", frame)
+#cv2.imwrite("/Users/mikkelsangmeebaunsgaard/Desktop/whiteblobs.jpg", frame)
 positions = calibration(frame)
+
 print(positions)
 video.release()
 cv2.waitKey(0)

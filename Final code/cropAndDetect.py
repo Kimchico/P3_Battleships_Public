@@ -9,8 +9,8 @@ from calibration import *
 # Coordinates = the coordinate set it should derive its coordinates for
 def detectShapes(image, player : int, type : int, cord):
     image = cv2.GaussianBlur(image, (5, 5), cv2.BORDER_DEFAULT)
-    lower_red = np.array([0, 0, 80])
-    higher_red = np.array([25, 20, 255])
+    #lower_red = np.array([0, 0, 80])
+    #higher_red = np.array([25, 20, 255])
 
     if player == 1:
         if type == 0:
@@ -38,9 +38,15 @@ def detectShapes(image, player : int, type : int, cord):
             #ship_positions = extract_blobs(binary_image)
             cv2.imshow("Cropped", cropped_image)
 
+    cv2.imwrite("Pictures/cropped_.jpg", cropped_image)
+
 video = cv2.VideoCapture(1)
-video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
-video.set(cv2.CAP_PROP_EXPOSURE, -3)
+#video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
+#video.set(cv2.CAP_PROP_EXPOSURE, -3)
+#video.set(cv2.CAP_PROP_FRAME_WIDTH, 1280);
+#video.set(cv2.CAP_PROP_FRAME_HEIGHT, 720);
+video.set(3, 1920)
+video.set(4, 1080)
 
 while True:
     check, frame = video.read()
@@ -50,7 +56,7 @@ while True:
         break
 
 
-
+cv2.imwrite("Pictures/frame_2.jpg", frame)
 detectShapes(frame, 2, 1, positions)
 video.release()
 cv2.waitKey(0)
