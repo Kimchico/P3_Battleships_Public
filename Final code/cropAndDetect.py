@@ -38,15 +38,15 @@ def detectShapes(image, player : int, type : int, cord):
             #ship_positions = extract_blobs(binary_image)
             cv2.imshow("Cropped", cropped_image)
 
-    cv2.imwrite("Pictures/cropped_.jpg", cropped_image)
+    cv2.imwrite("Pictures/cropped_witships.jpg", cropped_image)
 
 video = cv2.VideoCapture(1)
 #video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
 #video.set(cv2.CAP_PROP_EXPOSURE, -3)
 #video.set(cv2.CAP_PROP_FRAME_WIDTH, 1280);
 #video.set(cv2.CAP_PROP_FRAME_HEIGHT, 720);
-video.set(3, 1920)
-video.set(4, 1080)
+#video.set(3, 1920)
+#video.set(4, 900)
 
 while True:
     check, frame = video.read()
@@ -57,7 +57,11 @@ while True:
 
 
 cv2.imwrite("Pictures/frame_2.jpg", frame)
-detectShapes(frame, 2, 1, positions)
+detectShapes(frame, 1, 0, positions)
+#detectShapes(frame, 1, 1, positions)
+#detectShapes(frame, 2, 0, positions)
+#detectShapes(frame, 2, 1, positions)
+
 video.release()
 cv2.waitKey(0)
 cv2.destroyAllWindows()
