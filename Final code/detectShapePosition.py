@@ -28,6 +28,7 @@ def detectShapePosition(back,curent):
 
         for MinMax in shape_positions(point,width,height):
             positions = shape_gridP(MinMax)
+            print(positions)
             yield positions
 
     cv2.waitKey(0)
@@ -121,7 +122,7 @@ def shape_positions(coord,width,height):
         if(diffRows>diffColumn):
             shapeColumnMax=shapeColumnMax-1
     yield(shapeColumnMin,shapeColumnMax,shapeRowMin,shapeRowMax)
-    #print(str(shapeColumnMin) + ' ' + str(shapeColumnMax)+ ' '+str(shapeRowMin)+ ' '+str(shapeRowMax))
+    print(str(shapeColumnMin) + ' ' + str(shapeColumnMax)+ ' '+str(shapeRowMin)+ ' '+str(shapeRowMax))
 def shape_gridP(MinMax):
     Vmin = MinMax[0]
     Vmax = MinMax[1]
@@ -130,14 +131,20 @@ def shape_gridP(MinMax):
     positions=[]
     if Vmax - Vmin == 1:
         if Hmax - Hmin == 1:
-            positions.append([Vmax,Hmin])
+            positions.append([Vmin,Hmin])
         else:
-            for i in range(Hmin, Hmax):
-                positions.append([Vmax,i])
-
+            if Vmax<=5:
+                for i in range(Hmin, Hmax):
+                    positions.append([Vmin,i])
+            else:
+                for i in range(Hmin,Hmax):
+                    positions.append([Vmax,i])
     if Hmax - Hmin == 1:
-        for j in range(Vmin, Vmax):
-            positions.append([j,Hmax])
+
+            for j in range(Vmin, Vmax):
+                positions.append([j,Hmin])
+
+
     return positions
 def find_shapes(image):
     img = image

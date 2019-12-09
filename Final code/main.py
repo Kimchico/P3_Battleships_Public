@@ -10,7 +10,9 @@ from Ship import ship
 state = True
 player1_pressed = False; player2_pressed = False
 video = cv2.VideoCapture(1)
-pap1 = np.zeros((10, 10), dtype = np.uint8)
+rows, cols = (10, 10)
+
+pap1 = [[0 for i in range(cols)] for j in range(rows)]
 p1ships = []
 
 for shipPos in detectShapePosition(cv2.imread("Pictures/Cropped.jpg"), cv2.imread("Pictures/shipsCropped.jpg")):
