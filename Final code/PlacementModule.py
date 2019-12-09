@@ -20,10 +20,10 @@ def PlaceShip(placeArray,coord,shipArray):
 def CheckMines(MineCoords,placeArray,feedBackArr):
     Mx = MineCoords[0]
     My = MineCoords[1]
-    if placeArray[Mx][My] == 0:
-        feedBackArr[Mx][My] = 3
-    if placeArray[Mx][My] == 1:
-        feedBackArr[Mx][My] = 2
+    if placeArray[My][Mx] == 0:
+        feedBackArr[My][Mx] = 3
+    if placeArray[My][Mx] == 1:
+        feedBackArr[My][Mx] = 2
 '''
 PlaceShip(ShipArr,coord,shipArray)
 
