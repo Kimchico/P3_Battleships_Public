@@ -83,7 +83,7 @@ def shape_positions(coord,width,height):
         shapeColumnMin = xMin
         #print(str(shapeColumnMin))
         xMin += 1
-    xMin=0
+    #xMin=0
     #print('STOP')
     while (yMin * cubeHeight) <= (shapeYMin) and yMin <= 10:
         #print('YMIN')
@@ -91,7 +91,7 @@ def shape_positions(coord,width,height):
         shapeRowMin = yMin
         #print(str(shapeRowMin))
         yMin += 1
-    yMin=0
+    #yMin=0
     #print('STOP')
     while (xMax * cubeWidth) >= shapeXMax  and xMax <= 10:
         #print('XMAX')
@@ -99,7 +99,7 @@ def shape_positions(coord,width,height):
         shapeColumnMax = xMax
         #print(str(shapeColumnMax))
         xMax -= 1
-    xMax=0
+    #xMax=0
     #print('STOP')
     while ((yMax * cubeHeight)) >= shapeYMax  and yMax <= 10:
         #print('YMAX')
@@ -108,7 +108,7 @@ def shape_positions(coord,width,height):
         #print(str(shapeRowMax))
         yMax -= 1
 
-    yMax=0
+    #yMax=0
     #print('The shape starts on vertical line ' + str(shapeColumnMin) + ' and ends in vertical line ' + str(shapeColumnMax))
     #print('The shape starts on horizontal line ' + str(shapeRowMin) + ' and ends in horizontal line ' + str(shapeRowMax))
     #print('The shape is between rows ' + str(shapeRowMin) + ' and ' + str(shapeRowMax) + ' and between columns ' + str(shapeColumnMin) + ' and '+ str(shapeColumnMax))
@@ -124,6 +124,11 @@ def shape_positions(coord,width,height):
             shapeRowMax=shapeRowMax-1
         if(diffRows>diffColumn):
             shapeColumnMax=shapeColumnMax-1
+    if(diffColumn==2 and diffRows==2):
+        if(((xMax-1)*cubeWidth)-shapeColumnMax > ((yMax-1)*cubeHeight)-shapeRowMax):
+            shapeColumnMax=shapeColumnMax-1
+        if(((xMax-1)*cubeWidth)-shapeColumnMax < ((yMax-1)*cubeHeight)-shapeRowMax):
+            shapeRowMax=shapeRowMax-1
     yield(shapeColumnMin,shapeColumnMax,shapeRowMin,shapeRowMax)
     print(str(shapeColumnMin) + ' ' + str(shapeColumnMax)+ ' '+str(shapeRowMin)+ ' '+str(shapeRowMax))
 def shape_gridP(MinMax):
