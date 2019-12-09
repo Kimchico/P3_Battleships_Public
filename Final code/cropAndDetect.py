@@ -14,7 +14,7 @@ def gridPositions(pg1, pg2, ag1, ag2):
     ag1.append((positions[1][0][0][1], positions[0][0][1][1], positions[1][0][0][0], positions[0][1][1][0]))
     ag2.append((positions[1][1][0][1], positions[1][1][1][1], positions[1][1][0][0], positions[1][1][1][0]))
 
-    
+
 
 def cropGrid(image, grid):
     cropped_image = image[grid[0][0]:grid[0][1], grid[0][2]:grid[0][3]]
@@ -31,12 +31,14 @@ gridPositions(pg1, pg2, ag1, ag2)
 
 
 print("Take image WITHOUT any shapes in")
+
 while True:
     check, frame = video.read()
     cv2.imshow("Frame", frame)
     key = cv2.waitKey(1)
     if key == ord('q'):
         break
+
 cv2.destroyAllWindows()
 
 background_images.append(cropGrid(frame, pg1))
