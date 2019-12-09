@@ -5,7 +5,7 @@ from blob import extract_blobs
 from fixMinMax import coordinates
 import pygame
 
-def detectShapePosition(back,curent):
+def detectShapePosition(back,curent,thresh):
     back_grey = cv2.cvtColor(back, cv2.COLOR_BGR2GRAY)
     back_greyBH = cv2.equalizeHist(back_grey)
     height,width,c=back.shape
@@ -22,7 +22,7 @@ def detectShapePosition(back,curent):
     cv2.imwrite("Pictures/difference.jpg", difference)
     #cv2.imshow('diff',difference)
     kernel = np.ones((5,5), np.uint8)
-    img_binary = cv2.threshold(difference, 14,255, cv2.THRESH_BINARY)[1]
+    img_binary = cv2.threshold(difference, thresh,255, cv2.THRESH_BINARY)[1]
     #cv2.imshow('smth',img_binary)
     erosion = cv2.erode(img_binary,kernel,iterations=2)
     #cv2.imshow('dif',erosion)
@@ -169,5 +169,7 @@ def find_shapes(image):
     for blob3 in blobs3:
         min_value = blob3[0]
         max_value = blob3[-1]
+        print('Min Value: '+str(min_value))
+        print('Max Value: ' + str(max_value))
         yield (min_value, max_value)
 #detectShapePostion(back=cv2.imread('Pictures/Cropped.jpg'),curent=cv2.imread('Pictures/shipsCropped.jpg'))
