@@ -28,7 +28,7 @@ def detectShapePostion(back,curent):
 
         for MinMax in shape_positions(point,width,height):
             positions = shape_gridP(MinMax)
-            print(positions)
+            yield positions
 
     cv2.waitKey(0)
 '''
