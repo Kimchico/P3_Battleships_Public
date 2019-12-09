@@ -65,6 +65,7 @@ def shape_positions(coord,width,height):
     shapeYMin = coord[0][1]
     shapeXMax = coord[1][0]
     shapeYMax = coord[1][1]
+
     '''
     print(shapeXMin)
     print(shapeXMax)
@@ -123,17 +124,24 @@ def shape_positions(coord,width,height):
         shapeColumnMax=shapeColumnMax+1
     if(diffRows==0):
         shapeRowMax=shapeRowMax+1
+
     if(diffColumn>=2 and diffRows>=2):
-        if(diffColumn>diffRows):
-            shapeRowMax=shapeRowMax-1
-        if(diffRows>diffColumn):
-            shapeColumnMax=shapeColumnMax-1
-    if(diffColumn==2 and diffRows==2):
-        if(((xMax-1)*cubeWidth)-shapeColumnMax > ((yMax-1)*cubeHeight)-shapeRowMax):
-            shapeRowMax=shapeRowMax-1
-        if(((xMax-1)*cubeWidth)-shapeColumnMax < ((yMax-1)*cubeHeight)-shapeRowMax):
+
+        if(diffColumn==2 and diffRows==2):
+            if ((shapeYMax - shapeYMin) > (shapeXMax - shapeXMin)):
+                shapeColumnMax = shapeColumnMax - 1
+                #shapeRowMax += 1
+            elif ((shapeYMax - shapeYMin) < (shapeXMax - shapeXMin)):
+                shapeRowMax = shapeRowMax - 1
+                #shapeColumnMax += 1
+        else:
+            if(diffColumn>diffRows):
+                shapeRowMax=shapeRowMax-1
+            if(diffRows>diffColumn):
+                shapeColumnMax=shapeColumnMax-1
 
             shapeColumnMax = shapeColumnMax - 1
+
     yield(shapeColumnMin,shapeColumnMax,shapeRowMin,shapeRowMax)
     print(str(shapeColumnMin) + ' ' + str(shapeColumnMax)+ ' '+str(shapeRowMin)+ ' '+str(shapeRowMax))
 def shape_gridP(MinMax):
@@ -146,7 +154,7 @@ def shape_gridP(MinMax):
         if Hmax - Hmin == 1:
             positions.append([Vmin,Hmin])
         else:
-            if Vmax<=5:
+            if Vmax<=6:
                 for i in range(Hmin, Hmax):
                     positions.append([Vmin,i])
             else:
