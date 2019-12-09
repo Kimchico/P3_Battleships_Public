@@ -9,7 +9,7 @@ background_images = []; shapes = []
 
 
 def gridPositions(pg1, pg2, ag1, ag2):
-    pg1.append((positions[0][0][0][1], positions[0][0][1][1],  positions[0][0][0][0], positions[0][0][1][0]))
+    pg1.append((positions[0][0][0][1], positions[0][0][1][1], positions[0][0][0][0], positions[0][0][1][0]))
     pg2.append((positions[0][1][0][1], positions[0][1][1][1], positions[0][1][0][0], positions[0][1][1][0]))
     ag1.append((positions[1][0][0][1], positions[0][0][1][1], positions[1][0][0][0], positions[0][1][1][0]))
     ag2.append((positions[1][1][0][1], positions[1][1][1][1], positions[1][1][0][0], positions[1][1][1][0]))
@@ -64,7 +64,6 @@ cv2.imshow("Player 1 placement grid", shapes[0])
 cv2.imshow("Player 2 placement grid", shapes[1])
 cv2.imshow("Player 1 attack grid", shapes[2])
 cv2.imshow("Player 2 attack grid", shapes[3])
-
 
 video.release()
 cv2.waitKey(0)
