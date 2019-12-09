@@ -58,15 +58,19 @@ shapes.append(cropGrid(frame, pg1))
 shapes.append(cropGrid(frame, pg2))
 shapes.append(cropGrid(frame, ag1))
 shapes.append(cropGrid(frame, ag2))
+cv2.imwrite('Pictures/Cropped.jpg', background_images[-1])
+cv2.imwrite('Pictures/shipsCropped.jpg', shapes[-1])
+cv2.imwrite("Pictures/Cropped_2.jpg", background_images[0])
+cv2.imwrite("Pictures/shipsCropped_2.jpg", shapes[0])
+
+
 '''
 cv2.imshow("Player 1 placement grid without", background_images[0])
-cv2.imwrite('Pictures/Cropped.jpg', background_images[0])
 cv2.imshow("Player 2 placement grid without", background_images[1])
 cv2.imshow("Player 1 attack grid without", background_images[2])
 cv2.imshow("Player 2 attack grid without", background_images[3])
 
 cv2.imshow("Player 1 placement grid", shapes[0])
-cv2.imwrite('Pictures/shipsCropped.jpg',shapes[0])
 cv2.imshow("Player 2 placement grid", shapes[1])
 cv2.imshow("Player 1 attack grid", shapes[2])
 cv2.imshow("Player 2 attack grid", shapes[3])

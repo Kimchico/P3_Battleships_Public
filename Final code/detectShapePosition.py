@@ -13,10 +13,13 @@ def detectShapePosition(back,curent):
     current_grey = cv2.cvtColor(current, cv2.COLOR_BGR2GRAY)
     current_greyBH = cv2.equalizeHist(current_grey)
     back_greyBH = cv2.GaussianBlur(back_greyBH, (7,7), 0)
+    cv2.imwrite("Pictures/back_greyBH.jpg", back_greyBH)
     current_greyBH = cv2.GaussianBlur(current_greyBH, (7, 7), 0)
+    cv2.imwrite("Pictures/current_greyBH.jpg", current_greyBH)
     #cv2.imshow('back',back_greyBH)
     #cv2.imshow('current',current_greyBH)
     difference = cv2.absdiff(back_greyBH, current_greyBH)
+    cv2.imwrite("Pictures/difference.jpg", difference)
     #cv2.imshow('diff',difference)
     kernel = np.ones((5,5), np.uint8)
     img_binary = cv2.threshold(difference, 14,255, cv2.THRESH_BINARY)[1]
@@ -155,14 +158,13 @@ def find_shapes(image):
     x=w/10
 
     for blob in blobs:
-        #print('before removing '+ str(len(blob)))
+        print('before removing '+ str(len(blob)))
         min_value = blob[0]
         max_value = blob[-1]
-
-        if max_value[1]-min_value[1] < x*5 and max_value[0]-min_value[0] < y*5 and len(blob)>((x-2)*(y-2)):
+        if max_value[1]-min_value[1] < x*5 and max_value[0]-min_value[0] < y*5 and (len(blob) > 100):
             blobs2.append(blob)
-    #for blob2 in blobs2:
-        #print('after removing '+str(len(blob2)))
+    for blob2 in blobs2:
+        print('after removing '+str(len(blob2)))
     blobs3=coordinates(blobs2)
     for blob3 in blobs3:
         min_value = blob3[0]
