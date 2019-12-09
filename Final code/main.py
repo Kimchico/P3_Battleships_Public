@@ -1,29 +1,23 @@
 import cv2
 import numpy as np
 from blob import extract_blobs
-from calibration import *
-from cropAndDetect import *
-from detectShapePositon import *
+#from calibration import *
+#from cropAndDetect import *
+from detectShapePosition import *
+from PlacementModule import *
+from Ship import ship
 
 state = True
 player1_pressed = False; player2_pressed = False
 video = cv2.VideoCapture(1)
-player1_ships = detectShapePositon(background_images[0], shapes[0])
-player2_ships = detectShapePositon(background_images[1], shapes[1])
+pap1 = np.zeros((10, 10), dtype = np.uint8)
+p1ships = []
 
-while state:
-    _, frame = video.read()
+for shipPos in detectShapePosition(cv2.imread("Pictures/Cropped.jpg"), cv2.imread("Pictures/shipsCropped.jpg")):
+        PlaceShip(pap1, shipPos, p1ships)
 
+for row in pap1:
+    print(row)
 
-    if player1_pressed and player2_pressed:
-
-
-        #do some image segmentation on temp1_attack
-
-
-        #do some image segmentation on temp2_attack
-
-    # if player is dead:
-        #break
-
-    else: continue
+for s in p1ships:
+    print(s.get_Type())

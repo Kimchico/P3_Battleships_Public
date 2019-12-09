@@ -5,7 +5,7 @@ from blob import extract_blobs
 from fixMinMax import coordinates
 import pygame
 
-def detectShapePostion(back,curent):
+def detectShapePosition(back,curent):
     back_grey = cv2.cvtColor(back, cv2.COLOR_BGR2GRAY)
     back_greyBH = cv2.equalizeHist(back_grey)
     height,width,c=back.shape
