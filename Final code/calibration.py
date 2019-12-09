@@ -72,7 +72,6 @@ while True:
 
 positions = calibration(frame)
 
-print(positions)
 video.release()
 cv2.waitKey(0)
 cv2.destroyAllWindows()
