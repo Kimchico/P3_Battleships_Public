@@ -55,10 +55,6 @@ def calibration(image_to_crop):
 
     return ((player1_placement, player2_placement), (player1_attack, player2_attack))
 
-cv2.namedWindow("window", cv2.WND_PROP_FULLSCREEN)
-cv2.setWindowProperty("window",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
-cv2.imshow("window", cv2.imread("Pictures/fourblobs.png")):
-
 video = cv2.VideoCapture(1)
 #video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
 #video.set(cv2.CAP_PROP_EXPOSURE, -3)
