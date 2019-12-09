@@ -20,11 +20,11 @@ while state:
         #do some image segmentation on temp1_attack
 
     elif player2_pressed:
-        temp2_attack = cropgrid(frame, ag2)
+        temp2_attack = cropGrid(frame, ag2)
 
         #do some image segmentation on temp2_attack
 
     # if player is dead:
         #break
 
-    else continue
+    else: continue
