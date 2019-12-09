@@ -1,5 +1,5 @@
 import cv2
-import numpy
+import numpy as np
 from blob import extract_blobs
 from calibration import *
 from cropAndDetect import *
@@ -11,8 +11,11 @@ video = cv2.VideoCapture(1)
 while state:
     _, frame = video.read()
 
+    
     if player1_pressed:
         temp1_attack = cropGrid(frame, ag1)
+
+        temp1_positions = np.zeros((10, 10))
 
         #do some image segmentation on temp1_attack
 

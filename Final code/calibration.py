@@ -17,6 +17,7 @@ def coordinates(blobs):
         coordinates.append(((x[0], y[0]), (x[-1], y[-1])))
     return coordinates
 
+
 def calibration(image_to_crop):
     # Blur image
     blurred_image = cv2.cvtColor(image_to_crop, cv2.COLOR_BGR2GRAY)
@@ -55,6 +56,7 @@ def calibration(image_to_crop):
 
     return ((player1_placement, player2_placement), (player1_attack, player2_attack))
 
+marker_positions = []
 video = cv2.VideoCapture(1)
 #video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
 #video.set(cv2.CAP_PROP_EXPOSURE, -3)
