@@ -3,7 +3,6 @@ import cv2
 import numpy as np
 from blob import extract_blobs
 
-image = cv2.imread("/Users/mikkelsangmeebaunsgaard/Desktop/mikkelTHIS.jpg")
 
 def coordinates(blobs):
     coordinates = []
@@ -41,8 +40,6 @@ def calibration(image_to_crop):
 
     coord = coordinates(correct_blobs)
 
-    #for blob in image_blobs:
-    #    print(blob[0], blob[-1])
 
     # Find placement grids
     player1_placement = (coord[0][0], coord[0][-1])
@@ -68,15 +65,11 @@ video = cv2.VideoCapture(1)
 temp = 0
 while True:
     check, frame = video.read()
-    #cv2.imshow("frame", frame)
     if temp == 20:
         break
 
     temp += 1
 
-#cv2.imshow("frame", frame)
-#cv2.imwrite("/Users/mikkelsangmeebaunsgaard/Desktop/whiteblobs.jpg", frame)
-cv2.imwrite("Pictures/withoutSquares.jpg", frame)
 positions = calibration(frame)
 
 print(positions)

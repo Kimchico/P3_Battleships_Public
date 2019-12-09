@@ -3,10 +3,6 @@ import cv2
 from blob import extract_blobs
 from calibration import *
 
-# Image = the image you want to crop
-# Player = what player it should do its operations for
-# Type = defines if it is the attack or placement grid it should make
-# Coordinates = the coordinate set it should derive its coordinates for
 
 pg1 = []; pg2 = []; ag1 = []; ag2 = []
 background_images = []; shapes = []
@@ -53,6 +49,7 @@ while True:
     key = cv2.waitKey(1)
     if key == ord('q'):
         break
+
 shapes.append(cropGrid(frame, pg1))
 shapes.append(cropGrid(frame, pg2))
 shapes.append(cropGrid(frame, ag1))
@@ -68,7 +65,6 @@ cv2.imshow("Player 2 placement grid", shapes[1])
 cv2.imshow("Player 1 attack grid", shapes[2])
 cv2.imshow("Player 2 attack grid", shapes[3])
 
-#cv2.imwrite("Pictures/frame_2.jpg", frame)
 
 video.release()
 cv2.waitKey(0)
