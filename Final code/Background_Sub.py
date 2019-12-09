@@ -5,6 +5,7 @@ from blob import extract_blobs
 from fixMinMax import coordinates
 import pygame
 
+
 back = cv2.imread('Pictures/Cropped.jpg')
 back_grey = cv2.cvtColor(back, cv2.COLOR_BGR2GRAY)
 back_greyBH = cv2.equalizeHist(back_grey)
@@ -103,10 +104,17 @@ def shape_positions(coord):
     #print('The shape starts on horizontal line ' + str(shapeRowMin) + ' and ends in horizontal line ' + str(shapeRowMax))
     #print('The shape is between rows ' + str(shapeRowMin) + ' and ' + str(shapeRowMax) + ' and between columns ' + str(shapeColumnMin) + ' and '+ str(shapeColumnMax))
     #print('The shape is between vertical lines ' + str(shapeRowMin)+ ' and '+ str(shapeRowMax) +' and column '+ str(shapeColumnMax))
-    if(shapeColumnMax-shapeColumnMin==0):
+    diffColumn=shapeColumnMax-shapeColumnMin
+    diffRows=shapeRowMax-shapeRowMin
+    if(diffColumn==0):
         shapeColumnMax=shapeColumnMax+1
-    if(shapeRowMax-shapeRowMin==0):
+    if(diffRows==0):
         shapeRowMax=shapeRowMax+1
+    if(diffColumn>=2 and diffRows>=2):
+        if(diffColumn>diffRows):
+            shapeRowMax=shapeRowMax-1
+        if(diffRows>diffColumn):
+            shapeColumnMax=shapeColumnMax-1
     yield(shapeColumnMin,shapeColumnMax,shapeRowMin,shapeRowMax)
     print(str(shapeColumnMin) + ' ' + str(shapeColumnMax)+ ' '+str(shapeRowMin)+ ' '+str(shapeRowMax))
 def shape_gridP(MinMax):
