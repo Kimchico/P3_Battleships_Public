@@ -3,7 +3,6 @@ import cv2
 import numpy as np
 from blob import extract_blobs
 
-image = cv2.imread("/Users/mikkelsangmeebaunsgaard/Desktop/mikkelTHIS.jpg")
 
 def coordinates(blobs):
     coordinates = []
@@ -26,7 +25,7 @@ def calibration(image_to_crop):
     # Threshold and mask white
     #lower_white = np.array([90, 90, 90]); upper_white = np.array([255, 255, 255])
 
-    binary_image = cv2.inRange(blurred_image, 115, 255)
+    binary_image = cv2.inRange(blurred_image, 130, 255)
     cv2.imshow("gray", blurred_image)
     cv2.imshow("mask", binary_image)
     # Find blob
@@ -41,8 +40,6 @@ def calibration(image_to_crop):
 
     coord = coordinates(correct_blobs)
 
-    #for blob in image_blobs:
-    #    print(blob[0], blob[-1])
 
     # Find placement grids
     player1_placement = (coord[0][0], coord[0][-1])
@@ -62,23 +59,19 @@ video = cv2.VideoCapture(1)
 #video.set(cv2.CAP_PROP_EXPOSURE, -3)
 #video.set(CV_CAP_PROP_FRAME_WIDTH, 1280);
 #video.set(CV_CAP_PROP_FRAME_HEIGHT, 720);
-video.set(3, 1920)
-video.set(4, 900)
+#video.set(3, 1920)
+#video.set(4, 900)
 
 temp = 0
 while True:
     check, frame = video.read()
     if temp == 20:
-        cv2.imwrite("Pictures/frame.jpg", frame)
         break
 
     temp += 1
 
-#cv2.imshow("frame", frame)
-#cv2.imwrite("/Users/mikkelsangmeebaunsgaard/Desktop/whiteblobs.jpg", frame)
 positions = calibration(frame)
 
-print(positions)
 video.release()
 cv2.waitKey(0)
 cv2.destroyAllWindows()
