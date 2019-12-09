@@ -18,8 +18,8 @@ def PlaceShip(placeArray,coord,shipArray):
     shipArray.append(ship(i,coord,i))
 
 def CheckMines(MineCoords,placeArray,feedBackArr):
-    Mx = MineCoords[0]
-    My = MineCoords[1]
+    Mx = MineCoords[0][1]
+    My = MineCoords[0][0]
     if placeArray[Mx][My] == 0:
         feedBackArr[Mx][My] = 3
     if placeArray[Mx][My] == 1:
