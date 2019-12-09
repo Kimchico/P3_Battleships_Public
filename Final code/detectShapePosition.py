@@ -5,32 +5,32 @@ from blob import extract_blobs
 from fixMinMax import coordinates
 import pygame
 
-back = cv2.imread('Pictures/Cropped.jpg')
-back_grey = cv2.cvtColor(back, cv2.COLOR_BGR2GRAY)
-back_greyBH = cv2.equalizeHist(back_grey)
-curent = cv2.imread('Pictures/shipsCropped.jpg')
-height,width,c=back.shape
+def detectShapePostion(back,curent):
+    back_grey = cv2.cvtColor(back, cv2.COLOR_BGR2GRAY)
+    back_greyBH = cv2.equalizeHist(back_grey)
+    height,width,c=back.shape
+    current=cv2.resize(curent,(width,height))
+    current_grey = cv2.cvtColor(current, cv2.COLOR_BGR2GRAY)
+    current_greyBH = cv2.equalizeHist(current_grey)
+    back_greyBH = cv2.GaussianBlur(back_greyBH, (7,7), 0)
+    current_greyBH = cv2.GaussianBlur(current_greyBH, (7, 7), 0)
+    cv2.imshow('back',back_greyBH)
+    cv2.imshow('current',current_greyBH)
+    difference = cv2.absdiff(back_greyBH, current_greyBH)
+    cv2.imshow('diff',difference)
+    kernel = np.ones((5,5), np.uint8)
+    img_binary = cv2.threshold(difference, 14,255, cv2.THRESH_BINARY)[1]
+    cv2.imshow('smth',img_binary)
+    erosion = cv2.erode(img_binary,kernel,iterations=2)
+    cv2.imshow('dif',erosion)
+    cv2.imwrite( "Pictures/erosion.jpg", erosion)
+    for point in find_shapes(erosion):
 
-current=cv2.resize(curent,(width,height))
+        for MinMax in shape_positions(point,width,height):
+            positions = shape_gridP(MinMax)
+            print(positions)
 
-
-
-current_grey = cv2.cvtColor(current, cv2.COLOR_BGR2GRAY)
-current_greyBH = cv2.equalizeHist(current_grey)
-back_greyBH = cv2.GaussianBlur(back_greyBH, (7,7), 0)
-current_greyBH = cv2.GaussianBlur(current_greyBH, (7, 7), 0)
-cv2.imshow('back',back_greyBH)
-cv2.imshow('current',current_greyBH)
-difference = cv2.absdiff(back_greyBH, current_greyBH)
- #   _, difference = cv2.threshold(difference, 25, 255, cv2.THRESH_BINARY)
-
-cv2.imshow('diff',difference)
-kernel = np.ones((5,5), np.uint8)
-img_binary = cv2.threshold(difference, 14,255, cv2.THRESH_BINARY)[1]
-cv2.imshow('smth',img_binary)
-erosion = cv2.erode(img_binary,kernel,iterations=2)
-cv2.imshow('dif',erosion)
-cv2.imwrite( "Pictures/erosion.jpg", erosion)
+    cv2.waitKey(0)
 '''
 cv2.imshow('final',img_binary)
 kernel = np.ones((5,5), np.uint8)
@@ -43,7 +43,7 @@ def cvimage_to_pygame(image):
     """Convert cvimage into a pygame image"""
     return pygame.image.frombuffer(image.tostring(), image.shape[1::-1],
                                    "RGB")
-def shape_positions(coord):
+def shape_positions(coord,width,height):
 
 
     cubeWidth = int(width / 10)
@@ -103,10 +103,17 @@ def shape_positions(coord):
     #print('The shape starts on horizontal line ' + str(shapeRowMin) + ' and ends in horizontal line ' + str(shapeRowMax))
     #print('The shape is between rows ' + str(shapeRowMin) + ' and ' + str(shapeRowMax) + ' and between columns ' + str(shapeColumnMin) + ' and '+ str(shapeColumnMax))
     #print('The shape is between vertical lines ' + str(shapeRowMin)+ ' and '+ str(shapeRowMax) +' and column '+ str(shapeColumnMax))
-    if(shapeColumnMax-shapeColumnMin==0):
+    diffColumn=shapeColumnMax-shapeColumnMin
+    diffRows=shapeRowMax-shapeRowMin
+    if(diffColumn==0):
         shapeColumnMax=shapeColumnMax+1
-    if(shapeRowMax-shapeRowMin==0):
+    if(diffRows==0):
         shapeRowMax=shapeRowMax+1
+    if(diffColumn>=2 and diffRows>=2):
+        if(diffColumn>diffRows):
+            shapeRowMax=shapeRowMax-1
+        if(diffRows>diffColumn):
+            shapeColumnMax=shapeColumnMax-1
     yield(shapeColumnMin,shapeColumnMax,shapeRowMin,shapeRowMax)
     print(str(shapeColumnMin) + ' ' + str(shapeColumnMax)+ ' '+str(shapeRowMin)+ ' '+str(shapeRowMax))
 def shape_gridP(MinMax):
@@ -148,11 +155,4 @@ def find_shapes(image):
         min_value = blob3[0]
         max_value = blob3[-1]
         yield (min_value, max_value)
-
-for point in find_shapes(erosion):
-
-    for MinMax in shape_positions(point):
-
-        positions=shape_gridP(MinMax)
-        print(positions)
-cv2.waitKey(0)
+#detectShapePostion(back=cv2.imread('Pictures/Cropped.jpg'),curent=cv2.imread('Pictures/shipsCropped.jpg'))
