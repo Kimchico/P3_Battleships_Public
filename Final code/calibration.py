@@ -1,8 +1,9 @@
-# This modules purpose is to find the coordinates for each grid
+    # This modules purpose is to find the coordinates for each grid
 import cv2
 import numpy as np
 from blob import extract_blobs
 from fixMinMax import coordinates
+
 
 def calibration(image_to_crop):
     # Blur image
@@ -15,11 +16,10 @@ def calibration(image_to_crop):
     binary_image = cv2.inRange(blurred_image, 130, 255)
     cv2.imshow("gray", blurred_image)
     cv2.imshow("mask", binary_image)
+
     # Find blob
 
     image_blobs = extract_blobs(binary_image)
-    #image_blobs.pop()
-
     correct_blobs = []
 
     for blob in image_blobs:
@@ -40,9 +40,10 @@ def calibration(image_to_crop):
 
     # Return the coordinates to the function, hence turning the function into these values
     # These values can be accessed by refering to them as an array
+
     return ((player1_placement, player2_placement), (player1_attack, player2_attack))
 
-
+marker_positions = []
 video = cv2.VideoCapture(1)
 #video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
 #video.set(cv2.CAP_PROP_EXPOSURE, -3)
