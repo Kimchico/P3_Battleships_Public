@@ -1,4 +1,4 @@
-# This modules purpose is to find the coordinates for each grid
+    # This modules purpose is to find the coordinates for each grid
 import cv2
 import numpy as np
 from blob import extract_blobs
@@ -52,9 +52,12 @@ def calibration(image_to_crop):
 
     # Return the coordinates to the function, hence turning the function into these values
     # These values can be accessed by refering to them as an array
-    
+
     return ((player1_placement, player2_placement), (player1_attack, player2_attack))
 
+cv2.namedWindow("window", cv2.WND_PROP_FULLSCREEN)
+cv2.setWindowProperty("window",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
+cv2.imshow("window", cv2.imread("Pictures/fourblobs.png")):
 
 video = cv2.VideoCapture(1)
 #video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
