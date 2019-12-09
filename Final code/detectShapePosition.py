@@ -4,8 +4,10 @@ import cv2
 from blob import extract_blobs
 from fixMinMax import coordinates
 import pygame
+import random
 
 def detectShapePosition(back,curent,thresh):
+    awr = random.randrange(100000)
     back_grey = cv2.cvtColor(back, cv2.COLOR_BGR2GRAY)
     back_greyBH = cv2.equalizeHist(back_grey)
     height,width,c=back.shape
@@ -13,20 +15,22 @@ def detectShapePosition(back,curent,thresh):
     current_grey = cv2.cvtColor(current, cv2.COLOR_BGR2GRAY)
     current_greyBH = cv2.equalizeHist(current_grey)
     back_greyBH = cv2.GaussianBlur(back_greyBH, (7,7), 0)
-    cv2.imwrite("Pictures/back_greyBH.jpg", back_greyBH)
+    cv2.imwrite("Pictures/back_greyBH" + str(awr) + ".jpg", back_greyBH)
     current_greyBH = cv2.GaussianBlur(current_greyBH, (7, 7), 0)
-    cv2.imwrite("Pictures/current_greyBH.jpg", current_greyBH)
+    cv2.imwrite("Pictures/current_greyBH"+ str(awr) + ".jpg", current_greyBH)
     #cv2.imshow('back',back_greyBH)
     #cv2.imshow('current',current_greyBH)
     difference = cv2.absdiff(back_greyBH, current_greyBH)
-    cv2.imwrite("Pictures/difference.jpg", difference)
+    cv2.imwrite("Pictures/difference" + str(awr) +".jpg", difference)
     #cv2.imshow('diff',difference)
     kernel = np.ones((5,5), np.uint8)
     img_binary = cv2.threshold(difference, thresh,255, cv2.THRESH_BINARY)[1]
+    cv2.imwrite("Pictures/img_binary" + str(awr) + ".jpg", img_binary)
+
     #cv2.imshow('smth',img_binary)
     erosion = cv2.erode(img_binary,kernel,iterations=2)
     #cv2.imshow('dif',erosion)
-    cv2.imwrite( "Pictures/erosion.jpg", erosion)
+    cv2.imwrite("Pictures/erosion" + str(awr) + ".jpg", erosion)
     for point in find_shapes(erosion):
 
         for MinMax in shape_positions(point,width,height):
