@@ -30,16 +30,18 @@ def calibration(image_to_crop):
     cv2.imshow("mask", binary_image)
 
     # Find blob
+
     image_blobs = extract_blobs(binary_image)
     correct_blobs = []
 
     for blob in image_blobs:
-        if len(blob) > 50000:
+        if len(blob) > 17000:
+
             correct_blobs.append(blob)
 
     coord = coordinates(correct_blobs)
 
-
+    print(coord)
     # Find placement grids
     player1_placement = (coord[0][0], coord[0][-1])
     player2_placement = (coord[-1][0], coord[-1][-1])
