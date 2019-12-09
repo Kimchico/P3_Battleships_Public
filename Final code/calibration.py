@@ -2,20 +2,7 @@
 import cv2
 import numpy as np
 from blob import extract_blobs
-
-
-def coordinates(blobs):
-    coordinates = []
-    for blob in blobs:
-        x = []
-        y = []
-        for pixel in blob:
-            x.append(pixel[-1])
-            y.append(pixel[0])
-        x.sort(); y.sort()
-
-        coordinates.append(((x[0], y[0]), (x[-1], y[-1])))
-    return coordinates
+from fixMinMax import coordinates
 
 def calibration(image_to_crop):
     # Blur image

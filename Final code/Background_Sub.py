@@ -2,33 +2,35 @@
 import numpy as np
 import cv2
 from blob import extract_blobs
+from fixMinMax import coordinates
 import pygame
 
 back = cv2.imread('Pictures/Cropped.jpg')
 back_grey = cv2.cvtColor(back, cv2.COLOR_BGR2GRAY)
-back_greyB = cv2.GaussianBlur(back_grey, (7, 7), 0)
-back_greyBH = cv2.equalizeHist(back_greyB)
+back_greyBH = cv2.equalizeHist(back_grey)
 curent = cv2.imread('Pictures/shipsCropped.jpg')
-width,height,c=back.shape
+height,width,c=back.shape
 
-current=cv2.resize(curent,(height,width))
+current=cv2.resize(curent,(width,height))
 
 
 
 current_grey = cv2.cvtColor(current, cv2.COLOR_BGR2GRAY)
-current_greyB = cv2.GaussianBlur(current_grey,(7,7),0)
-current_greyBH = cv2.equalizeHist(current_greyB)
-cv2.imshow('back',back_greyB)
-cv2.imshow('current',current_greyB)
+current_greyBH = cv2.equalizeHist(current_grey)
+back_greyBH = cv2.GaussianBlur(back_greyBH, (7,7), 0)
+current_greyBH = cv2.GaussianBlur(current_greyBH, (7, 7), 0)
+cv2.imshow('back',back_greyBH)
+cv2.imshow('current',current_greyBH)
 difference = cv2.absdiff(back_greyBH, current_greyBH)
  #   _, difference = cv2.threshold(difference, 25, 255, cv2.THRESH_BINARY)
 
-
+cv2.imshow('diff',difference)
 kernel = np.ones((5,5), np.uint8)
-img_binary = cv2.threshold(difference, 11,255, cv2.THRESH_BINARY)[1]
+img_binary = cv2.threshold(difference, 14,255, cv2.THRESH_BINARY)[1]
+cv2.imshow('smth',img_binary)
 erosion = cv2.erode(img_binary,kernel,iterations=2)
 cv2.imshow('dif',erosion)
-cv2.imwrite( "Pictures/erosion.jpg", erosion);
+cv2.imwrite( "Pictures/erosion.jpg", erosion)
 '''
 cv2.imshow('final',img_binary)
 kernel = np.ones((5,5), np.uint8)
@@ -49,10 +51,10 @@ def shape_positions(coord):
     print(str(width))
     print(height)
     print('Cube Width: ' + str(cubeWidth) + ' Cube Height: '+ str(cubeHeight))
-    shapeXMin = coord[0][1]
-    shapeYMin = coord[0][0]
-    shapeXMax = coord[1][1]
-    shapeYMax = coord[1][0]
+    shapeXMin = coord[0][0]
+    shapeYMin = coord[0][1]
+    shapeXMax = coord[1][0]
+    shapeYMax = coord[1][1]
     print(shapeXMin)
     print(shapeXMax)
     print(shapeYMin)
@@ -101,6 +103,10 @@ def shape_positions(coord):
     #print('The shape starts on horizontal line ' + str(shapeRowMin) + ' and ends in horizontal line ' + str(shapeRowMax))
     #print('The shape is between rows ' + str(shapeRowMin) + ' and ' + str(shapeRowMax) + ' and between columns ' + str(shapeColumnMin) + ' and '+ str(shapeColumnMax))
     #print('The shape is between vertical lines ' + str(shapeRowMin)+ ' and '+ str(shapeRowMax) +' and column '+ str(shapeColumnMax))
+    if(shapeColumnMax-shapeColumnMin==0):
+        shapeColumnMax=shapeColumnMax+1
+    if(shapeRowMax-shapeRowMin==0):
+        shapeRowMax=shapeRowMax+1
     yield(shapeColumnMin,shapeColumnMax,shapeRowMin,shapeRowMax)
     print(str(shapeColumnMin) + ' ' + str(shapeColumnMax)+ ' '+str(shapeRowMin)+ ' '+str(shapeRowMax))
 def shape_gridP(MinMax):
@@ -111,23 +117,36 @@ def shape_gridP(MinMax):
     positions=[]
     if Vmax - Vmin == 1:
         if Hmax - Hmin == 1:
-            positions.append([Hmax,Vmax])
+            positions.append([Vmax,Hmin])
         else:
-            for i in range(Hmin+1, Hmax):
-                positions.append([i,Vmax])
+            for i in range(Hmin+1, Hmax+1):
+                positions.append([Vmax,i])
 
     if Hmax - Hmin == 1:
-        for j in range(Vmin+1, Vmax):
-            positions.append([Hmax,j])
+        for j in range(Vmin+1, Vmax+1):
+            positions.append([j,Hmax])
     return positions
 def find_shapes(image):
     img = image
     blobs = extract_blobs(img)
+    blobs2 = []
+    h,w=img.shape
+    y=h/10
+    x=w/10
 
     for blob in blobs:
+        print('before removing '+ str(len(blob)))
         min_value = blob[0]
         max_value = blob[-1]
-        #print(min_value,max_value)
+
+        if max_value[1]-min_value[1] < x*5 and max_value[0]-min_value[0] < y*5 and len(blob)>((x-2)*(y-2)):
+            blobs2.append(blob)
+    for blob2 in blobs2:
+        print('after removing '+str(len(blob2)))
+    blobs3=coordinates(blobs2)
+    for blob3 in blobs3:
+        min_value = blob3[0]
+        max_value = blob3[-1]
         yield (min_value, max_value)
 
 for point in find_shapes(erosion):
