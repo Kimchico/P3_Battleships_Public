@@ -143,7 +143,10 @@ def shape_positions(coord,width,height):
                 shapeColumnMax=shapeColumnMax-1
 
             shapeColumnMax = shapeColumnMax - 1
-
+    if(shapeXMax>(cubeWidth*10)):
+        shapeColumnMax=10
+    if(shapeYMax>(cubeHeight*10)):
+        shapeRowMax=10
     yield(shapeColumnMin,shapeColumnMax,shapeRowMin,shapeRowMax)
     print(str(shapeColumnMin) + ' ' + str(shapeColumnMax)+ ' '+str(shapeRowMin)+ ' '+str(shapeRowMax))
 def shape_gridP(MinMax):
