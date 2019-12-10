@@ -17,9 +17,9 @@ def detectShapePosition(back,curent,thresh):
     back_greyB = cv2.GaussianBlur(back_grey, (7, 7), 0)
     #current_greyBH = cv2.equalizeHist(current_grey)
     #back_greyBH = cv2.GaussianBlur(back_greyBH, (7,7), 0)
-    #cv2.imwrite("Pictures/back_greyBH" + str(awr) + ".jpg", back_greyBH)
+    cv2.imwrite("Pictures/back_greyB" + str(awr) + ".jpg", back_greyB)
     #current_greyBH = cv2.GaussianBlur(current_greyBH, (7, 7), 0)
-    #cv2.imwrite("Pictures/current_greyBH"+ str(awr) + ".jpg", current_greyBH)
+    cv2.imwrite("Pictures/current_greyB"+ str(awr) + ".jpg", current_greyB)
     #cv2.imshow('back',back_greyBH)
     #cv2.imshow('current',current_greyBH)
     difference = cv2.absdiff(back_greyB, current_greyB)
@@ -115,6 +115,9 @@ def shape_positions(coord,width,height):
         #print(str(shapeRowMax))
         yMax -= 1
 
+    print(shapeRowMax, shapeRowMin)
+    print(shapeColumnMax, shapeColumnMin)
+
     #yMax=0
     #print('The shape starts on vertical line ' + str(shapeColumnMin) + ' and ends in vertical line ' + str(shapeColumnMax))
     #print('The shape starts on horizontal line ' + str(shapeRowMin) + ' and ends in horizontal line ' + str(shapeRowMax))
@@ -128,22 +131,30 @@ def shape_positions(coord,width,height):
         shapeRowMax=shapeRowMax+1
 
     if(diffColumn>=2 and diffRows>=2):
-
+        print("IF1 before" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
         if(diffColumn==2 and diffRows==2):
+            print("IF1A before" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
             if ((shapeYMax - shapeYMin) > (shapeXMax - shapeXMin)):
+                print("IF1AA before" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
                 shapeColumnMax = shapeColumnMax - 1
+                print("IF1AA after"  + str(shapeRowMax) +  " "  + str(shapeColumnMax))
+
                 #shapeRowMax += 1
             elif ((shapeYMax - shapeYMin) < (shapeXMax - shapeXMin)):
+                print("IF1B before" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
                 shapeRowMax = shapeRowMax - 1
+                print("IF1B after" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
                 #shapeColumnMax += 1
         else:
             if(diffColumn>diffRows):
+                print("IF2A before" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
                 shapeRowMax=shapeRowMax-1
+                print("IF2A after" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
             if(diffRows>diffColumn):
+                print("IF2B before" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
                 shapeColumnMax=shapeColumnMax-1
-
-            shapeColumnMax = shapeColumnMax - 1
-
+                print("IF2B after" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
+        print("IF1 after" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
     yield(shapeColumnMin,shapeColumnMax,shapeRowMin,shapeRowMax)
     print(str(shapeColumnMin) + ' ' + str(shapeColumnMax)+ ' '+str(shapeRowMin)+ ' '+str(shapeRowMax))
 def shape_gridP(MinMax):

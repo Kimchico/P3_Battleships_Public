@@ -9,10 +9,15 @@ background_images = []; shapes = []
 green = []; pink = []
 
 def gridPositions(pg1, pg2, ag1, ag2):
+    #pg1.append((positions[0][0][0][1], positions[0][0][1][1], positions[0][0][0][0], positions[0][0][1][0]))
+    #pg2.append((positions[0][1][0][1], positions[0][1][1][1], positions[0][1][0][0], positions[0][1][1][0]))
+    #ag1.append((positions[1][0][0][1], positions[0][0][1][1], positions[1][0][0][0], positions[0][1][1][0]))
+    #ag2.append((positions[1][1][0][1], positions[1][1][1][1], positions[1][1][0][0], positions[1][1][1][0]))
     pg1.append((positions[0][0][0][1], positions[0][0][1][1], positions[0][0][0][0], positions[0][0][1][0]))
     pg2.append((positions[0][1][0][1], positions[0][1][1][1], positions[0][1][0][0], positions[0][1][1][0]))
-    ag1.append((positions[1][0][0][1], positions[0][0][1][1], positions[1][0][0][0], positions[0][1][1][0]))
+    ag1.append((positions[1][0][0][1], positions[1][0][1][1], positions[1][0][0][0], positions[1][0][1][0]))
     ag2.append((positions[1][1][0][1], positions[1][1][1][1], positions[1][1][0][0], positions[1][1][1][0]))
+
 
 
 
@@ -21,8 +26,8 @@ def cropGrid(image, grid):
     return cropped_image
 
 video = cv2.VideoCapture(1)
-#video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
-#video.set(cv2.CAP_PROP_EXPOSURE, -3)
+video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
+video.set(cv2.CAP_PROP_EXPOSURE, -3)
 #video.set(cv2.CAP_PROP_FRAME_WIDTH, 1280);
 #video.set(cv2.CAP_PROP_FRAME_HEIGHT, 720);
 #video.set(3, 1920)
