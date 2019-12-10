@@ -50,7 +50,7 @@ def calibration(image_to_crop):
 
     return ((player1_placement, player2_placement), (player1_attack, player2_attack))
 
-marker_positions = []
+#marker_positions = []
 video = cv2.VideoCapture(1)
 video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
 video.set(cv2.CAP_PROP_EXPOSURE, -3)

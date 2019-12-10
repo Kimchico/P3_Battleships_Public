@@ -32,7 +32,8 @@ video.set(cv2.CAP_PROP_EXPOSURE, -3)
 #video.set(cv2.CAP_PROP_FRAME_HEIGHT, 720);
 #video.set(3, 1920)
 #video.set(4, 900)
-gridPositions(pg1, pg2, ag1, ag2)
+#gridPositions(pg1, pg2, ag1, ag2)
+gridPositions(ag2, ag1, pg1, pg2)
 
 
 print("Take image WITHOUT any shapes in")
@@ -66,12 +67,12 @@ shapes.append(cropGrid(frame, ag2))
 
 cv2.imwrite('Pictures/Cropped.jpg', background_images[0]) #player 1 placement without
 cv2.imwrite('Pictures/shipsCropped.jpg', shapes[0]) # player 1 placement with shapes
-cv2.imwrite("Pictures/Cropped_2.jpg", background_images[-1]) # player 1 attack without
-cv2.imwrite("Pictures/shipsCropped_2.jpg", shapes[-1]) # player 1 attack without
-cv2.imwrite('Pictures/Cropped_3.jpg', background_images[2]) # player 2 attack with
-cv2.imwrite('Pictures/shipsCropped_3.jpg', shapes[2]) # player 2 attack with
-cv2.imwrite("Pictures/Cropped_4.jpg", background_images[1]) # player 2 placement without
-cv2.imwrite("Pictures/shipsCropped_4.jpg", shapes[1]) # player 2 placement with
+cv2.imwrite("Pictures/Cropped_2.jpg", background_images[2]) # player 1 attack without
+cv2.imwrite("Pictures/shipsCropped_2.jpg", shapes[2]) # player 1 attack without
+cv2.imwrite('Pictures/Cropped_3.jpg', background_images[1]) # player 2 attack with
+cv2.imwrite('Pictures/shipsCropped_3.jpg', shapes[1]) # player 2 attack with
+cv2.imwrite("Pictures/Cropped_4.jpg", background_images[3]) # player 2 placement without
+cv2.imwrite("Pictures/shipsCropped_4.jpg", shapes[3]) # player 2 placement with
 
 '''
 cv2.imshow("Player 1 placement grid without", background_images[0])
@@ -85,5 +86,5 @@ cv2.imshow("Player 1 attack grid", shapes[2])
 cv2.imshow("Player 2 attack grid", shapes[3])
 '''
 video.release()
-cv2.waitKey(0)
+#cv2.waitKey(0)
 cv2.destroyAllWindows()
