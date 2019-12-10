@@ -123,6 +123,10 @@ def shape_positions(coord,width,height):
     #print('The shape starts on horizontal line ' + str(shapeRowMin) + ' and ends in horizontal line ' + str(shapeRowMax))
     #print('The shape is between rows ' + str(shapeRowMin) + ' and ' + str(shapeRowMax) + ' and between columns ' + str(shapeColumnMin) + ' and '+ str(shapeColumnMax))
     #print('The shape is between vertical lines ' + str(shapeRowMin)+ ' and '+ str(shapeRowMax) +' and column '+ str(shapeColumnMax))
+    if (shapeXMax>(cubeWidth*10)):
+        shapeColumnMax=10
+    if (shapeYMax>(cubeHeight*10)):
+        shapeRowMax=10
     diffColumn=shapeColumnMax-shapeColumnMin
     diffRows=shapeRowMax-shapeRowMin
     if(diffColumn==0):
@@ -155,6 +159,7 @@ def shape_positions(coord,width,height):
                 shapeColumnMax=shapeColumnMax-1
                 print("IF2B after" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
         print("IF1 after" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
+
     yield(shapeColumnMin,shapeColumnMax,shapeRowMin,shapeRowMax)
     print(str(shapeColumnMin) + ' ' + str(shapeColumnMax)+ ' '+str(shapeRowMin)+ ' '+str(shapeRowMax))
 def shape_gridP(MinMax):
