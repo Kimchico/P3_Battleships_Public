@@ -197,7 +197,7 @@ def find_shapes(image):
         print('before removing '+ str(len(blob)))
         min_value = blob[0]
         max_value = blob[-1]
-        if max_value[1]-min_value[1] < x*5 and max_value[0]-min_value[0] < y*5 and (len(blob) > 100):
+        if max_value[1]-min_value[1] < x*5 and max_value[0]-min_value[0] < y*5 and (len(blob) > 80):
             blobs2.append(blob)
     for blob2 in blobs2:
         print('after removing '+str(len(blob2)))

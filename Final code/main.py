@@ -26,10 +26,10 @@ for shipPos in detectShapePosition(background_images[0], shapes[0], 14):
 for minePos in detectShapePosition(background_images[-1], shapes[-1], 14):
     CheckMines(minePos, pap1, feed1)
 
-for shipPos in detectShapePosition(background_images[1], shapes[1], 10):
+for shipPos in detectShapePosition(background_images[1], shapes[1], 14):
     PlaceShip(pap2, shipPos, p2ships)
 
-for minePos in detectShapePosition(background_images[2], shapes[2], 10):
+for minePos in detectShapePosition(background_images[2], shapes[2], 14):
     CheckMines(minePos, pap2, feed2)
 
 
