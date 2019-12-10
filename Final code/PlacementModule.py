@@ -13,6 +13,11 @@ def PlaceShip(placeArray,coord,shipArray):
     for c in coord:
         x = c[0]
         y = c[1]
+        if y == 10:
+            y = y - 1
+        if x == 10:
+            x = x - 1
+
         placeArray[y][x] = 1
         i=i+1
     shipArray.append(ship(i,coord,i))
