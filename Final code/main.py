@@ -23,13 +23,13 @@ pap2 = [[0 for f in range(cols)] for s in range(rows)]; feed2 = [[0 for ff in ra
 for shipPos in detectShapePosition(background_images[0], shapes[0], 14):
     PlaceShip(pap1, shipPos, p1ships)
 
-for shipPos in detectShapePosition(background_images[1], shapes[1], 10):
+for shipPos in detectShapePosition(background_images[1], shapes[1], 14):
     PlaceShip(pap2, shipPos, p2ships)
 
 for minePos1 in detectShapePosition(background_images[-1], shapes[-1], 14):
     CheckMines(minePos1, pap2, feed1)
 
-for minePos2 in detectShapePosition(background_images[2], shapes[2], 10):
+for minePos2 in detectShapePosition(background_images[2], shapes[2], 14):
     CheckMines(minePos2, pap1, feed2)
 
 
