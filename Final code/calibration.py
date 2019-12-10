@@ -16,6 +16,7 @@ def calibration(image_to_crop):
     binary_image = cv2.inRange(blurred_image, 130, 255)
     cv2.imshow("gray", blurred_image)
     cv2.imshow("mask", binary_image)
+    cv2.imwrite("Pictures/blobs.jpg", binary_image)
 
     # Find blob
 
@@ -29,14 +30,20 @@ def calibration(image_to_crop):
 
     coord = coordinates(correct_blobs)
 
-    print(coord)
+
     # Find placement grids
     player1_placement = (coord[0][0], coord[0][-1])
-    player2_placement = (coord[-1][0], coord[-1][-1])
+    #ratiox = coord[0][-1][0] - coord[0][0][0]
+    #ratioy =  coord[0][-1][1] - coord[0][0][1]
 
+    player2_placement = (coord[-1][0], coord[-1][-1])
+    #player2_placement = (coord[-1][0], (coord[-1][0][0] + ratiox, coord[-1][0][1]  + ratioy))
     # Find attack grids
     player1_attack = (coord[1][0], coord[1][-1])
+    #player1_attack = (coord[1][0], (coord[1][0][0] + ratiox, coord[1][0][1]  + ratioy))
+
     player2_attack = (coord[2][0], coord[2][-1])
+    #player2_attack = (coord[2][0], (coord[2][0][0] + ratiox, coord[2][0][1]  + ratioy))
 
     # Return the coordinates to the function, hence turning the function into these values
     # These values can be accessed by refering to them as an array
@@ -45,8 +52,8 @@ def calibration(image_to_crop):
 
 marker_positions = []
 video = cv2.VideoCapture(1)
-#video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
-#video.set(cv2.CAP_PROP_EXPOSURE, -3)
+video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
+video.set(cv2.CAP_PROP_EXPOSURE, -3)
 #video.set(CV_CAP_PROP_FRAME_WIDTH, 1280);
 #video.set(CV_CAP_PROP_FRAME_HEIGHT, 720);
 #video.set(3, 1920)
@@ -61,7 +68,7 @@ while True:
     temp += 1
 
 positions = calibration(frame)
-
+print(positions)
 video.release()
 cv2.waitKey(0)
 cv2.destroyAllWindows()
