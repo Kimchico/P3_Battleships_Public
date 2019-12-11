@@ -49,41 +49,15 @@ image = pygame.image.load("FOURBLOBS.png")
 image = pygame.transform.scale(image, (1280,720))
 display_surface = pygame.display.set_mode((1280,720),pygame.FULLSCREEN)
 
-# set the pygame window name
+window = pygame.display.set_mode((1920, 1080), pygame.FULLSCREEN)
 pygame.display.set_caption('image')
 
-# create a surface object, image is drawn on it.
 
-
-
-
-
-# infinite loop
 while True:
-
-    # completely fill the surface object
-    # with white colour
-    display_surface.fill(white)
-
-    # copying the image surface object
-    # to the display surface object at
-    # (0, 0) coordinate.
-    display_surface.blit(image, (0, 0))
-
-    # iterate over the list of event objects
-    # that was returned by pygame.event.get() method.
+    window.blit(image, (0, 0))
     for event in pygame.event.get():
-
-        # if event object type is quit
-        # then quitting the pygame
-        # and program both.
-        if event.type == pygame.quit:
-
-            # deactivates the pygame library
+        if event.type == pygame.KEYDOWN:
             pygame.quit()
-
-            # quit the program.
             quit()
 
-        # draws the surface object to the screen.
         pygame.display.update()
