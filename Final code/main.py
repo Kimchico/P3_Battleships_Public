@@ -8,24 +8,24 @@ from PlacementModule import *
 from Ship import ship
 import random
 from attack import *
-import keyboard
+import pygame
 
-state = False
+pygame.init()
+state = True
 player1_turn = True; player2_turn = False
 video = cv2.VideoCapture(1)
 rows, cols = (10, 10)
-
-
+shipsNr1 = 0; shipsNr2 = 0
 
 ## Setup phase
 pap1 = [[0 for i in range(cols)] for j in range(rows)]; feed1 = [[0 for ii in range(cols)] for jj in range(rows)]; p1ships = [];
 pap2 = [[0 for f in range(cols)] for s in range(rows)]; feed2 = [[0 for ff in range(cols)] for ss in range(rows)]; p2ships = [];
 
 for shipPos in detectShapePosition(background_images[0], shapes[0], 30):
-    PlaceShip(pap1, shipPos, p1ships)
+    PlaceShip(pap1, shipPos, p1ships, shipsNr1)
 
 for shipPos in detectShapePosition(background_images[1], shapes[1], 30):
-    PlaceShip(pap2, shipPos, p2ships)
+    PlaceShip(pap2, shipPos, p2ships, shipsNr2)
 
 
 for minePos1 in detectShapePosition(background_images[2], shapes[2], 30):
@@ -37,6 +37,10 @@ for minePos2 in detectShapePosition(background_images[3], shapes[3], 30):
 cv2.destroyAllWindows()
 
 #state = True
+
+screen = pygame.display.set_mode((500, 500))
+image = pygame.image.load('Pictures/back_greyB13537.jpg')
+screen.blit(image, (0, 0))
 
 """
 while state:
@@ -109,6 +113,74 @@ while state:
     else:
         desShip2 = 0
 """
+desShip1 = 0
+desShip2 = 0
+while state:
+    _, frame = video.read()
+    screen.blit(image, (0, 0))
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+        if event.type == pygame.KEYDOWN:
+            if event.unicode == 'q':
+                if (player1_turn == True and player2_turn == False):
+                    for row in pap2:
+                        print(row)
+                    for attackCoord in detectShapePosition(background_images[2], cropGrid(frame, ag1), 30):
+                        print("Player 1 attack cord")
+                        print(attackCoord)
+                        attack(attackCoord, feed1, pap2, p2ships)
+                        print("feed 1")
+                        for row in feed1:
+                            print(row)
+
+                    for s2 in p2ships:
+                        if(s2.isDestroyed == True):
+                            desShip2 = desShip2+1
+                        print("deship2")
+                        print(desShip2)
+                        print("shipsNr2")
+                        print(shipsNr2)
+                        if shipsNr2 == desShip2:
+                            state = False
+                        else:
+                            desShip2 = 0
+
+                    player1_turn = False
+                    player2_turn = True
+
+            if event.unicode == 'e':
+                if (player1_turn == False and player2_turn == True):
+                    for row in pap1:
+                        print(row)
+                    for attackCoord in detectShapePosition(background_images[3], cropGrid(frame, ag2), 30):
+                        print("Player 2 attack cord")
+                        print(attackCoord)
+                        attack(attackCoord, feed2, pap1, p1ships)
+                        print("feed 2")
+                        for row in feed2:
+                            print(row)
+
+                    for s1 in p1ships:
+                        if(s1.isDestroyed == True):
+                            desShip1 = desShip1+1
+                        print("deship1")
+                        print(desShip1)
+                        prinT("shipsNr1")
+                        print(shipsNr1)
+                        if shipsNr1 == desShip1:
+                            state = False
+                        else:
+                            desShip1 = 0
+
+                    player1_turn = True
+                    player2_turn = False
+
+
+
+
+    pygame.display.flip()
+
 print("PLAYER 1")
 for row in pap1:
     print(row)
