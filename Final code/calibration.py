@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from blob import extract_blobs
 from fixMinMax import coordinates
-
+import pygame
 
 def calibration(image_to_crop):
     # Blur image

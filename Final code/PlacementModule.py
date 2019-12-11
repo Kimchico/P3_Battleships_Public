@@ -8,7 +8,7 @@ shipArray=[]
 coord=[[2,3],[2,4],[2,5]]
 MineCoords=[[2,3],[2,8],[6,7]]
 '''
-def PlaceShip(placeArray,coord,shipArray,shipNr):
+def PlaceShip(placeArray,coord,shipArray):
     i=0
     for c in coord:
         x = c[0]
@@ -21,9 +21,7 @@ def PlaceShip(placeArray,coord,shipArray,shipNr):
         placeArray[y][x] = 1
         i=i+1
     shipArray.append(ship(i,coord,i))
-    shipNr = shipNr + 1
-    print('ship nr in placement module')
-    print(shipNr)
+    
 
 def CheckMines(MineCoords,placeArray,feedBackArr):
     Mx = MineCoords[0][0]

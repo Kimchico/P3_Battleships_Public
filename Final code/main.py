@@ -9,6 +9,7 @@ from Ship import ship
 import random
 from attack import *
 import pygame
+import os
 
 pygame.init()
 state = True
@@ -22,10 +23,10 @@ pap1 = [[0 for i in range(cols)] for j in range(rows)]; feed1 = [[0 for ii in ra
 pap2 = [[0 for f in range(cols)] for s in range(rows)]; feed2 = [[0 for ff in range(cols)] for ss in range(rows)]; p2ships = [];
 
 for shipPos in detectShapePosition(background_images[0], shapes[0], 30):
-    PlaceShip(pap1, shipPos, p1ships, shipsNr1)
+    PlaceShip(pap1, shipPos, p1ships)
 
 for shipPos in detectShapePosition(background_images[1], shapes[1], 30):
-    PlaceShip(pap2, shipPos, p2ships, shipsNr2)
+    PlaceShip(pap2, shipPos, p2ships)
 
 
 for minePos1 in detectShapePosition(background_images[2], shapes[2], 30):
@@ -129,25 +130,34 @@ while state:
                     for attackCoord in detectShapePosition(background_images[2], cropGrid(frame, ag1), 30):
                         print("Player 1 attack cord")
                         print(attackCoord)
-                        attack(attackCoord, feed1, pap2, p2ships)
+
+                        shot =  attack(attackCoord, feed1, pap2, p2ships)
+
                         print("feed 1")
                         for row in feed1:
                             print(row)
 
+                    amountOfShips1 = 0
                     for s2 in p2ships:
+                        s2.check_health()
+                        amountOfShips1 = amountOfShips1 + 1
                         if(s2.isDestroyed == True):
                             desShip2 = desShip2+1
                         print("deship2")
                         print(desShip2)
-                        print("shipsNr2")
-                        print(shipsNr2)
-                        if shipsNr2 == desShip2:
+
+                        if amountOfShips1 == desShip2:
                             state = False
                         else:
                             desShip2 = 0
 
-                    player1_turn = False
-                    player2_turn = True
+                        print(amountOfShips1)
+                    if shot:
+                        player1_turn = True
+                        player2_turn = False
+                    else:
+                        player1_turn = False
+                        player2_turn = True
 
             if event.unicode == 'e':
                 if (player1_turn == False and player2_turn == True):
@@ -156,25 +166,31 @@ while state:
                     for attackCoord in detectShapePosition(background_images[3], cropGrid(frame, ag2), 30):
                         print("Player 2 attack cord")
                         print(attackCoord)
-                        attack(attackCoord, feed2, pap1, p1ships)
+                        shot = attack(attackCoord, feed2, pap1, p1ships)
                         print("feed 2")
                         for row in feed2:
                             print(row)
 
+                    amountOfShips2 = 0
                     for s1 in p1ships:
+                        s1.check_health()
+                        amountOfShips2 = amountOfShips2 + 1
                         if(s1.isDestroyed == True):
                             desShip1 = desShip1+1
                         print("deship1")
                         print(desShip1)
-                        prinT("shipsNr1")
-                        print(shipsNr1)
-                        if shipsNr1 == desShip1:
+
+                        if amountOfShips2 == desShip1:
                             state = False
                         else:
                             desShip1 = 0
-
-                    player1_turn = True
-                    player2_turn = False
+                        print(amountOfShips2)
+                    if shot:
+                        player1_turn = False
+                        player2_turn = True
+                    else:
+                        player1_turn = True
+                        player2_turn = False
 
 
 
