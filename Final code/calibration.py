@@ -13,8 +13,8 @@ def calibration(image_to_crop):
     #lower_white = np.array([90, 90, 90]); upper_white = np.array([255, 255, 255])
 
     binary_image = cv2.inRange(blurred_image, 130, 255)
-    cv2.imshow("gray", blurred_image)
-    cv2.imshow("mask", binary_image)
+    #cv2.imshow("gray", blurred_image)
+    #cv2.imshow("mask", binary_image)
     cv2.imwrite("Pictures/blobs.jpg", binary_image)
 
     # Find blob
@@ -23,7 +23,7 @@ def calibration(image_to_crop):
     correct_blobs = []
 
     for blob in image_blobs:
-        if len(blob) > 17000:
+        if len(blob) > 13000:
 
             correct_blobs.append(blob)
 
@@ -50,10 +50,9 @@ def calibration(image_to_crop):
     return ((player1_placement, player2_placement), (player1_attack, player2_attack))
 
 #marker_positions = []
-video = cv2.VideoCapture(1)
-
-video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
-video.set(cv2.CAP_PROP_EXPOSURE, -3)
+video = cv2.VideoCapture(0)
+#video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
+#video.set(cv2.CAP_PROP_EXPOSURE, -3)
 #video.set(CV_CAP_PROP_FRAME_WIDTH, 1280);
 #video.set(CV_CAP_PROP_FRAME_HEIGHT, 720);
 #video.set(3, 1920)
@@ -61,21 +60,20 @@ video.set(cv2.CAP_PROP_EXPOSURE, -3)
 
 cv2.namedWindow("window", cv2.WND_PROP_FULLSCREEN)
 cv2.setWindowProperty("window",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
-cv2.imshow("window", cv2.imread("Pictures/FOURBLOBS.png"))
+cv2.imshow("window", cv2.imread("Pictures/fourblobs.png"))
 
 temp = 0
 while True:
     check, frame = video.read()
-    
-    if temp == 50:
+    key = cv2.waitKey(1)
+
+    if key == ord('q'):
         break
 
     temp += 1
 
 
-cv2.imwrite("Pictures/pygamewuhu.jpg", frame)
 positions = calibration(frame)
 print(positions)
 video.release()
-cv2.waitKey(0)
 cv2.destroyAllWindows()

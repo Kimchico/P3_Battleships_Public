@@ -25,9 +25,9 @@ def cropGrid(image, grid):
     cropped_image = image[grid[0][0]:grid[0][1], grid[0][2]:grid[0][3]]
     return cropped_image
 
-video = cv2.VideoCapture(1)
-video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
-video.set(cv2.CAP_PROP_EXPOSURE, -3)
+video = cv2.VideoCapture(0)
+#video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
+#video.set(cv2.CAP_PROP_EXPOSURE, -3)
 #video.set(cv2.CAP_PROP_FRAME_WIDTH, 1280);
 #video.set(cv2.CAP_PROP_FRAME_HEIGHT, 720);
 #video.set(3, 1920)
@@ -37,15 +37,17 @@ gridPositions(ag2, ag1, pg1, pg2)
 
 
 print("Take image WITHOUT any shapes in")
-
+cv2.namedWindow("window", cv2.WND_PROP_FULLSCREEN)
+cv2.setWindowProperty("window",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
+cv2.imshow("window", cv2.imread("Pictures/grid.png"))
 while True:
     check, frame = video.read()
-    cv2.imshow("Frame", frame)
+    #cv2.imshow("Frame", frame)
     key = cv2.waitKey(1)
     if key == ord('q'):
         break
 
-cv2.destroyAllWindows()
+
 
 background_images.append(cropGrid(frame, pg1))
 background_images.append(cropGrid(frame, pg2))
@@ -55,7 +57,7 @@ background_images.append(cropGrid(frame, ag2))
 print("Place ships")
 while True:
     check, frame = video.read()
-    cv2.imshow("Frame", frame)
+    #cv2.imshow("Frame", frame)
     key = cv2.waitKey(1)
     if key == ord('q'):
         break

@@ -14,7 +14,7 @@ import os
 pygame.init()
 state = True
 player1_turn = True; player2_turn = False
-video = cv2.VideoCapture(1)
+video = cv2.VideoCapture(0)
 rows, cols = (10, 10)
 shipsNr1 = 0; shipsNr2 = 0
 
@@ -35,12 +35,12 @@ for minePos1 in detectShapePosition(background_images[2], shapes[2], 30):
 for minePos2 in detectShapePosition(background_images[3], shapes[3], 30):
     CheckMines(minePos2, pap1, feed2)
 
-cv2.destroyAllWindows()
+
 
 #state = True
 
 screen = pygame.display.set_mode((500, 500))
-image = pygame.image.load('Pictures/back_greyB13537.jpg')
+image = pygame.image.load('Pictures/all_sizes.jpg')
 screen.blit(image, (0, 0))
 
 """
