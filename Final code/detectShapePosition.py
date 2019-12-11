@@ -172,14 +172,9 @@ def shape_gridP(MinMax):
         if Hmax - Hmin == 1:
             positions.append([Vmin,Hmin])
         else:
-            if Vmax<=6:
                 for i in range(Hmin, Hmax):
                     positions.append([Vmin,i])
-            else:
-                for i in range(Hmin,Hmax):
-                    positions.append([Vmax,i])
     if Hmax - Hmin == 1:
-
             for j in range(Vmin, Vmax):
                 positions.append([j,Hmin])
 

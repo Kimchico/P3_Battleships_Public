@@ -36,7 +36,7 @@ for minePos2 in detectShapePosition(background_images[3], shapes[3], 30):
 
 cv2.destroyAllWindows()
 
-state = True
+#state = True
 
 """
 while state:
@@ -62,7 +62,7 @@ while state:
                     for row in feed1:
                         print(row)
 """
-
+"""
 desShip1 = 0
 desShip2 = 0
 while state:
@@ -108,7 +108,7 @@ while state:
         state = False
     else:
         desShip2 = 0
-
+"""
 print("PLAYER 1")
 for row in pap1:
     print(row)

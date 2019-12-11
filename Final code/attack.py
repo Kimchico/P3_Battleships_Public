@@ -2,9 +2,10 @@ import cv2
 import numpy as np
 def attack(coord,feedArray,placementArray,shipsArray):
     print(coord)
-    x=coord[0][1]
-    y=coord[0][0]
-    print(x)
+    x=coord[0][0]
+    y=coord[0][1]
+    x = 9 - x
+    y = 9 - y
     #for p in placementArray: #this might need to be modified
     if placementArray[y][x]==1:
         feedArray[y][x]=2 #2 is shot and hit
