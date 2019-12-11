@@ -59,13 +59,15 @@ video.set(cv2.CAP_PROP_EXPOSURE, -3)
 #video.set(3, 1920)
 #video.set(4, 900)
 
+cv2.namedWindow("window", cv2.WND_PROP_FULLSCREEN)
+cv2.setWindowProperty("window",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
+cv2.imshow("window", cv2.imread("Pictures/FOURBLOBS.png"))
+
 temp = 0
 while True:
     check, frame = video.read()
-    cv2.imshow("frame", frame)
-    key = cv2.waitKey(1)
-
-    if key == ord('q'):
+    
+    if temp == 50:
         break
 
     temp += 1
