@@ -3,7 +3,6 @@ import cv2
 import numpy as np
 from blob import extract_blobs
 from fixMinMax import coordinates
-import pygame
 
 def calibration(image_to_crop):
     # Blur image
@@ -52,10 +51,7 @@ def calibration(image_to_crop):
 
 #marker_positions = []
 video = cv2.VideoCapture(1)
-pygame.init()
-image = pygame.image.load("Pictures/FOURBLOBS.png")
-image = pygame.transform.scale(image, (1280,720))
-display_surface = pygame.display.set_mode((1280,720),pygame.FULLSCREEN)
+
 video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
 video.set(cv2.CAP_PROP_EXPOSURE, -3)
 #video.set(CV_CAP_PROP_FRAME_WIDTH, 1280);
@@ -65,17 +61,17 @@ video.set(cv2.CAP_PROP_EXPOSURE, -3)
 
 temp = 0
 while True:
-    display_surface.blit(image, (0, 0))
     check, frame = video.read()
-    cv2.imshow('frame',frame)
-    for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN:
-            quit()
-            break
+    cv2.imshow("frame", frame)
+    key = cv2.waitKey(1)
+
+    if key == ord('q'):
+        break
 
     temp += 1
-    pygame.display.update()
 
+
+cv2.imwrite("Pictures/pygamewuhu.jpg", frame)
 positions = calibration(frame)
 print(positions)
 video.release()
