@@ -52,6 +52,10 @@ def calibration(image_to_crop):
 
 #marker_positions = []
 video = cv2.VideoCapture(1)
+pygame.init()
+image = pygame.image.load("Pictures/FOURBLOBS.png")
+image = pygame.transform.scale(image, (1280,720))
+display_surface = pygame.display.set_mode((1280,720),pygame.FULLSCREEN)
 video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
 video.set(cv2.CAP_PROP_EXPOSURE, -3)
 #video.set(CV_CAP_PROP_FRAME_WIDTH, 1280);
@@ -61,11 +65,16 @@ video.set(cv2.CAP_PROP_EXPOSURE, -3)
 
 temp = 0
 while True:
+    display_surface.blit(image, (0, 0))
     check, frame = video.read()
-    if temp == 20:
-        break
+    cv2.imshow('frame',frame)
+    for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+            quit()
+            break
 
     temp += 1
+    pygame.display.update()
 
 positions = calibration(frame)
 print(positions)
