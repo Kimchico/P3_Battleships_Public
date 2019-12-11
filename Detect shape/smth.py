@@ -14,6 +14,7 @@ pygame.init()
 #Size_3_horizontal.jpg
 #Size_4_horizontal.png
 #Size__4_vertical.jpg
+
 image = cv2.imread('Pictures/erosion67237.jpg')
 imageRGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
