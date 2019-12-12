@@ -18,7 +18,7 @@ def project(image_to_crop,ships):
         x = positions[0][0]
         y = positions[0][1]
         rectx = x*gridWidth
-        recty = x*gridHeight
+        recty = y*gridHeight
 
 
 
