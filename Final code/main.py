@@ -22,7 +22,7 @@ amountOfShips1 = 0; amountOfShips2 = 0
 
 #image = pygame.transform.scale(image, (1280,720))
 #pygame.mouse.set_visible(False)
-image = pygame.image.load("Pictures/grid.png")
+image = pygame.image.load("Final Pictures/grid.png")
 image = pygame.transform.scale(image, (1280,720))
 display_surface = pygame.display.set_mode((1280, 720),pygame.FULLSCREEN)
 

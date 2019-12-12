@@ -61,7 +61,7 @@ video.set(cv2.CAP_PROP_EXPOSURE, -3)
 
 cv2.namedWindow("window", cv2.WND_PROP_FULLSCREEN)
 cv2.setWindowProperty("window",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
-cv2.imshow("window", cv2.imread("Pictures/fourblobs.png"))
+cv2.imshow("window", cv2.imread("Final Pictures/fourblobs.png"))
 
 os.system("say 'Do not place anything in the picture!'")
 
