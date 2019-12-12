@@ -17,8 +17,10 @@ player1_turn = True; player2_turn = False
 video = cv2.VideoCapture(1)
 rows, cols = (10, 10)
 shipsNr1 = 0; shipsNr2 = 0
+amountOfShips1 = 0; amountOfShips2 = 0
 
 #image = pygame.transform.scale(image, (1280,720))
+#pygame.mouse.set_visible(False)
 image = pygame.image.load("Pictures/grid.png")
 image = pygame.transform.scale(image, (1280,720))
 display_surface = pygame.display.set_mode((1280, 720),pygame.FULLSCREEN)
@@ -37,9 +39,15 @@ for shipPos in detectShapePosition(background_images[1], shapes[1], 30):
     PlaceShip(pap2, shipPos, p2ships)
 
 for s1 in p1ships:
-    ammountOfShips1 = ammountOfShips1 +1
+    amountOfShips1 = amountOfShips1 +1
 for s2 in p2ships:
-    ammountOfShips2 = ammountOfShips2 +1
+    amountOfShips2 = amountOfShips2 +1
+
+
+
+#insert projection code here
+
+
 for minePos1 in detectShapePosition(background_images[2], shapes[2], 40):
     CheckMines(minePos1, pap2, feed1)
 
@@ -80,7 +88,7 @@ while state:
                         print("deship2")
                         print(desShip2)
 
-                        if amountOfShips1 == desShip2:
+                        if amountOfShips2 == desShip2:
                             state = False
                         else:
                             desShip2 = 0
@@ -112,7 +120,7 @@ while state:
                         print("deship1")
                         print(desShip1)
 
-                        if amountOfShips2 == desShip1:
+                        if amountOfShips1 == desShip1:
                             state = False
                         else:
                             desShip1 = 0

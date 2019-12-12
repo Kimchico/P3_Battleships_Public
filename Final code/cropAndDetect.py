@@ -43,7 +43,7 @@ gridPositions(ag2, ag1, pg1, pg2)
 #cv2.namedWindow("window", cv2.WND_PROP_FULLSCREEN)
 #cv2.setWindowProperty("window",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
 #cv2.imshow("window", cv2.imread("Pictures/grid.png"))
-
+#pygame.mouse.set_visible(False)
 image = pygame.image.load("Pictures/grid.png")
 image = pygame.transform.scale(image, (1280,720))
 display_surface = pygame.display.set_mode((1280, 720),pygame.FULLSCREEN)
