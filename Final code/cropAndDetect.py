@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 from blob import extract_blobs
 from calibration import *
+import pygame
 
 
 pg1 = []; pg2 = []; ag1 = []; ag2 = [];
@@ -25,9 +26,9 @@ def cropGrid(image, grid):
     cropped_image = image[grid[0][0]:grid[0][1], grid[0][2]:grid[0][3]]
     return cropped_image
 
-video = cv2.VideoCapture(0)
-#video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
-#video.set(cv2.CAP_PROP_EXPOSURE, -3)
+video = cv2.VideoCapture(1)
+video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
+video.set(cv2.CAP_PROP_EXPOSURE, -3)
 #video.set(cv2.CAP_PROP_FRAME_WIDTH, 1280);
 #video.set(cv2.CAP_PROP_FRAME_HEIGHT, 720);
 #video.set(3, 1920)
@@ -36,36 +37,69 @@ video = cv2.VideoCapture(0)
 gridPositions(ag2, ag1, pg1, pg2)
 
 
-print("Take image WITHOUT any shapes in")
-cv2.namedWindow("window", cv2.WND_PROP_FULLSCREEN)
-cv2.setWindowProperty("window",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
-cv2.imshow("window", cv2.imread("Pictures/grid.png"))
+
+
+
+#cv2.namedWindow("window", cv2.WND_PROP_FULLSCREEN)
+#cv2.setWindowProperty("window",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
+#cv2.imshow("window", cv2.imread("Pictures/grid.png"))
+#pygame.mouse.set_visible(False)
+image = pygame.image.load("Pictures/grid.png")
+image = pygame.transform.scale(image, (1280,720))
+display_surface = pygame.display.set_mode((1280, 720),pygame.FULLSCREEN)
+
+state = True
+
+os.system("say 'Press q to take an image without any shapes on then afterwards press e to take a picture with both mines and ships on'")
+
+while state:
+    display_surface.blit(image, (0, 0))
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+        if event.type == pygame.KEYDOWN:
+            check, frame = video.read()
+            if event.unicode == 'q':
+                background_images.append(cropGrid(frame, pg1))
+                background_images.append(cropGrid(frame, pg2))
+                background_images.append(cropGrid(frame, ag1))
+                background_images.append(cropGrid(frame, ag2))
+            if event.unicode == 'e':
+                shapes.append(cropGrid(frame, pg1))
+                shapes.append(cropGrid(frame, pg2))
+                shapes.append(cropGrid(frame, ag1))
+                shapes.append(cropGrid(frame, ag2))
+                state = False
+    pygame.display.update()
+
+"""
+os.system("say 'Take image WITHOUT any shapes in'")
 while True:
     check, frame = video.read()
     #cv2.imshow("Frame", frame)
     key = cv2.waitKey(1)
     if key == ord('q'):
         break
+"""
 
 
-
-background_images.append(cropGrid(frame, pg1))
-background_images.append(cropGrid(frame, pg2))
-background_images.append(cropGrid(frame, ag1))
-background_images.append(cropGrid(frame, ag2))
-
-print("Place ships")
+#background_images.append(cropGrid(frame, pg1))
+#background_images.append(cropGrid(frame, pg2))
+#background_images.append(cropGrid(frame, ag1))
+#background_images.append(cropGrid(frame, ag2))
+"""
+os.system("say 'Place your ships'")
 while True:
     check, frame = video.read()
     #cv2.imshow("Frame", frame)
     key = cv2.waitKey(1)
     if key == ord('q'):
         break
-
-shapes.append(cropGrid(frame, pg1))
-shapes.append(cropGrid(frame, pg2))
-shapes.append(cropGrid(frame, ag1))
-shapes.append(cropGrid(frame, ag2))
+"""
+#shapes.append(cropGrid(frame, pg1))
+#shapes.append(cropGrid(frame, pg2))
+#shapes.append(cropGrid(frame, ag1))
+#shapes.append(cropGrid(frame, ag2))
 
 cv2.imwrite('Pictures/Cropped.jpg', background_images[0]) #player 1 placement without
 cv2.imwrite('Pictures/shipsCropped.jpg', shapes[0]) # player 1 placement with shapes
