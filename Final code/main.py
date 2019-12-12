@@ -10,6 +10,7 @@ import random
 from attack import *
 import pygame
 import os
+#from projection import project
 
 pygame.init()
 state = True
@@ -21,7 +22,7 @@ amountOfShips1 = 0; amountOfShips2 = 0
 
 #image = pygame.transform.scale(image, (1280,720))
 #pygame.mouse.set_visible(False)
-image = pygame.image.load("Pictures/grid.png")
+image = pygame.image.load("Final Pictures/grid.png")
 image = pygame.transform.scale(image, (1280,720))
 display_surface = pygame.display.set_mode((1280, 720),pygame.FULLSCREEN)
 
@@ -46,7 +47,8 @@ for s2 in p2ships:
 
 
 #insert projection code here
-
+#project(image, display_surface, p1ships, 1)
+#project(image, display_surface, p2ships, 2)
 
 
 
