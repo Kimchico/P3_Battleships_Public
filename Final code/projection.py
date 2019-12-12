@@ -6,6 +6,9 @@ from blob import extract_blobs
 fourblobs = cv2.imread("Pictures/fourblobs.png", 0)
 grid = cv2.imread("Pictures/grid.png")
 
+
+
+
 def project(image_to_crop):
     # Find blob
 
@@ -22,7 +25,7 @@ def project(image_to_crop):
     player1Placement = image_to_crop[7:499, 86:578]
     player2Placement = image_to_crop[582:1074, 1340:1832]
 
-    
+
 
 
 
