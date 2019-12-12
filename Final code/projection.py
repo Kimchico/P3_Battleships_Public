@@ -9,7 +9,7 @@ grid = cv2.imread("Pictures/grid.png")
 
 
 
-def project(image_to_crop):
+def project(image_to_crop, image):
     # Find blob
 
     binary_image = cv2.inRange(image_to_crop, 200, 255)
