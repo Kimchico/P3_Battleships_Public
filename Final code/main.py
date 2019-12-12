@@ -10,7 +10,7 @@ import random
 from attack import *
 import pygame
 import os
-from projection import project
+#from projection import project
 
 pygame.init()
 state = True
