@@ -17,7 +17,7 @@ def gridPositions(pg1, pg2, ag1, ag2):
 def cropGrid(image, grid):
     cropped_image = image[grid[0][0]:grid[0][1], grid[0][2]:grid[0][3]]
     return cropped_image
-video = cv2.VideoCapture(0)
+video = cv2.VideoCapture(1)
 video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
 video.set(cv2.CAP_PROP_EXPOSURE, -3)
 gridPositions(ag2, ag1, pg1, pg2)
@@ -41,6 +41,6 @@ while state:
                 background_images.append(cropGrid(frame, ag2))
             if event.unicode == 'e':
                 print('here')
-                for pot in detectShapePosition(background_images[0],cropGrid(frame, pg1),30):
+                for pot in detectShapePosition(background_images[3], cropGrid(frame, ag2), 30):
                     print('blyat')
     pygame.display.update()
