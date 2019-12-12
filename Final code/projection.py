@@ -62,22 +62,23 @@ def project(surface, ships, player):
         positions = s.positions
         x = positions[0][0]
         y = positions[0][1]
-        rectx = x*gridWidth
-        recty = y*gridHeight
-        pygame.draw.rect(placement, (0, 0, 255), (recty, rectx, gridWidth, gridHeight))
+        rectx = ((70 - 10) + 5) + x * (40 - 3) - (x * 4)
+        recty = 6 + 5 + y * (40 - 3) - (y * 4)
+        pygame.draw.rect(surface, (0, 0, 255), (rectx, recty, (gridWidth - 20) * (s.type * 1.2), (gridHeight - 20)))
 
     #placement = pygame.transform.scale(placement, (1280, 800))
-
+    """
     if player == 1:
         surface.blit(placement, (6, 70))
     elif player == 2:
         surface.blit(placement, (473, 1090))
+    """
 
 rows, cols = (10, 10)
 pygame.init()
 image = pygame.image.load("Final Pictures/grid.png")
-image = pygame.transform.scale(image, (1280, 800))
-display_surface = pygame.display.set_mode((1280, 800), pygame.FULLSCREEN)
+image = pygame.transform.scale(image, (1280, 720))
+display_surface = pygame.display.set_mode((1280, 720), pygame.FULLSCREEN)
 
 pap1 = [[0 for i in range(cols)] for j in range(rows)]
 p1ships = []
