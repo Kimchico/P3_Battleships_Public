@@ -48,6 +48,9 @@ for s2 in p2ships:
 #insert projection code here
 
 
+
+
+
 for minePos1 in detectShapePosition(background_images[2], shapes[2], 40):
     CheckMines(minePos1, pap2, feed1)
 
