@@ -32,7 +32,7 @@ def detectShapePosition(back,curent,thresh):
     #cv2.imshow('smth',img_binary)
     erosion = cv2.erode(img_binary,kernel,iterations=2)
     #cv2.imshow('dif',erosion)
-    cv2.imwrite("Evaluation/Grid_4/erosion" + str(awr) + ".jpg", erosion)
+    cv2.imwrite("Evaluation/Grid_3/erosion" + str(awr) + ".jpg", erosion)
     for point in find_shapes(erosion):
 
         for MinMax in shape_positions(point,width,height):
