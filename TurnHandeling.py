@@ -1,83 +1,90 @@
+"""""
+import cv2
+
+cap = cv2.VideoCapture (1)
+
+while True:
+    ret, frame = cap.read()
+
+    cv2.imshow("frame", frame)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+cap.release()
+cv2.destroyAllWindows()
+"""""
+
 import cv2
 import numpy as np
-import time
+from blob import extract_blobs
 #Video capture, the number is which camera, 0 is laptop, 1 is webcam
-cap = cv2.VideoCapture(1)
-
-#maybe make a loop here, where it will capture first 20 frames
-delayCounter = 0
-frameCount = 0
-images = []
-startTime = time.time()
-#ret, firstFrame = cap.read()
-
-#def denoise(firstFrame):
-
-    #firstFrame = cv2.medianBlur(firstFrame, 5)
-    #firstFrame = cv2.GaussianBlur(firstFrame, (7, 7), 0)
-
-    #return firstFrame
-#firstFrame = denoise(firstFrame)
-#gray = cv2.cvtColor(firstFrame, cv2.COLOR_BGR2GRAY)
-
-#while True:
-
-    #images.append(gray)
-    #if frameCount == 19:
-     #   break
-    #frameCount += 1
-
-#print(len(images))
-
-#meanImage = sum(images) / len(images)
-#print(meanImage)
+cap = cv2.VideoCapture (0)
 
 
-#Run through the frame continuously
-while True:
+def denoise(feed):
+    feed = cv2.medianBlur(feed, 5)
+    feed = cv2.GaussianBlur(feed, (7, 7), 0)
+    feed = cv2.cvtColor(feed, cv2.COLOR_BGR2GRAY)
+    return feed
 
+def findBlobs(image):
+    img = image
+    blobs = extract_blobs(img)
+    blobs2 = []
+    for blob in blobs:
+        if len(blob) > 500:
+            blobs2.append(blob)
 
+def backgroundSubtraction (background):
+    t = 0
+    background = denoise(background)
+
+    while True:
         ret, frame = cap.read()
-        ret, firstFrame = cap.read()
-        gray = cv2.cvtColor(firstFrame, cv2.COLOR_BGR2GRAY)
-
-
-        if time.time() - startTime >= 50:
-            ret, firstFrame = cap.read()
-            secFrame = "openCV10SecFrame.png".format(delayCounter)
-            cv2.imwrite(secFrame, firstFrame)
-            startTime = time.time()
-        delayCounter += 1
-
-
-        def denoise(firstFrame):
-
-            firstFrame = cv2.medianBlur(firstFrame, 5)
-            firstFrame = cv2.GaussianBlur(firstFrame, (9, 9), 0)
-
-            return firstFrame
-
-
-        firstFrame = denoise(firstFrame)
         frame = denoise(frame)
+        substraction = cv2.absdiff(background, frame)
+        (thresh, bi) = cv2.threshold(substraction, 5, 255, cv2.THRESH_BINARY)
 
-        gray2 = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        #substraction = gray2 - gray
-        #substraction = grey - [images for image in images]
-        #substraction = gray2 - [gray for image in gray]
-        subtraction = cv2.absdiff(gray2, gray)
-        #subtraction = cv2.absdiff(gray2, [images for image in images])
-        ret, binary = cv2.threshold(subtraction, 5, 255, cv2.THRESH_BINARY)
 
-        cv2.imshow('soething', firstFrame)
-        cv2.imshow('first frame', gray)
-        cv2.imshow('webcam', gray2)
-        cv2.imshow('difference', binary)
+    #every time t is hundred, it takes an image and resets t to 0
+        if t >= 100:
+            ret, background = cap.read()
+            background = denoise(background)
+            #print(t)
+            t = 0
+        t += 1
+        #print(t)
 
         key = cv2.waitKey(20)
-
         if key == 27:
             break
+
+        contours, ret = cv2.findContours(bi, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+        for cnt in contours:
+           cv2.drawContours(bi, [cnt], 0, (0, 255, 0))
+        #print(contours)
+
+        #counting the amount of contours, like polygons
+        cntArea = cv2.contourArea(cnt)
+        #approx function, is to remove noise by removing some of the contours, by averaging them out (look up decleration)
+        approx = cv2.approxPolyDP(cnt, 0.02*cv2.arcLength(cnt, True), True)
+
+        if cntArea > 500 and cntArea < 600:
+            cv2.drawContours(bi, [approx], 0, (255, 0, 0),0)
+            if len(approx) <= 4:
+                print("hand detected")
+                print(contours)
+        cv2.imshow('first frame', background)
+        cv2.imshow('webcam', frame)
+        cv2.imshow('difference', bi)
+
+        #print(bi.dtype)
+        #print(bi.shape)
+    return  bi
+
+
+ret, background = cap.read()
+backgroundSubtraction(background)
 
 cap.release()
 cv2.destroyAllWindows()
