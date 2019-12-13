@@ -17,22 +17,22 @@ def detectShapePosition(back,curent,thresh):
     back_greyB = cv2.GaussianBlur(back_grey, (7, 7), 0)
     #current_greyBH = cv2.equalizeHist(current_grey)
     #back_greyBH = cv2.GaussianBlur(back_greyBH, (7,7), 0)
-    cv2.imwrite("Evaluation/Grid_1/back_greyB" + str(awr) + ".jpg", back_greyB)
+    #cv2.imwrite("Evaluation/Grid_1/back_greyB" + str(awr) + ".jpg", back_greyB)
     #current_greyBH = cv2.GaussianBlur(current_greyBH, (7, 7), 0)
-    cv2.imwrite("Evaluation/Grid_1/current_greyB"+ str(awr) + ".jpg", current_greyB)
+    #cv2.imwrite("Evaluation/Grid_1/current_greyB"+ str(awr) + ".jpg", current_greyB)
     #cv2.imshow('back',back_greyBH)
     #cv2.imshow('current',current_greyBH)
     difference = cv2.absdiff(back_greyB, current_greyB)
-    cv2.imwrite("Evaluation/Grid_1/difference" + str(awr) +".jpg", difference)
+    #cv2.imwrite("Evaluation/Grid_1/difference" + str(awr) +".jpg", difference)
     #cv2.imshow('diff',difference)
     kernel = np.ones((5,5), np.uint8)
     img_binary = cv2.threshold(difference, thresh,255, cv2.THRESH_BINARY)[1]
-    cv2.imwrite("Evaluation/Grid_1/img_binary" + str(awr) + ".jpg", img_binary)
+    #cv2.imwrite("Evaluation/Grid_1/img_binary" + str(awr) + ".jpg", img_binary)
 
     #cv2.imshow('smth',img_binary)
     erosion = cv2.erode(img_binary,kernel,iterations=2)
     #cv2.imshow('dif',erosion)
-    cv2.imwrite("Evaluation/Grid_1/erosion" + str(awr) + ".jpg", erosion)
+    #cv2.imwrite("Evaluation/Grid_1/erosion" + str(awr) + ".jpg", erosion)
     for point in find_shapes(erosion):
 
         for MinMax in shape_positions(point,width,height):

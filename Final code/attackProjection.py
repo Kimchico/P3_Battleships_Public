@@ -52,15 +52,15 @@ def projectAttacks(surface, feed, player):
     print('Above was arr')
     print('\n')
     if player == 2:
-        centerX = 893
-        centerY = 27
+        centerX = 895
+        centerY = 391
         centerXp = 59
-        centerYp = 5
+        centerYp = 367
         for i in range(0,10):
             for j in range(0,10):
                 if feed[i][j] == 2:
                     x = j
-                    y = i
+                    y = 9- i
                     ccenterXp = centerXp + x * (gridWidth) + gridWidth/2
                     ccenterYp = centerYp + y * (gridHeight) + gridHeight/2
 
@@ -76,7 +76,7 @@ def projectAttacks(surface, feed, player):
             for j in range(0, 10):
                 if arr[i][j] == 2:
                     x = j
-                    y = i
+                    y = 9 - i
                     ccenterX = centerX + x * (gridWidth) + gridWidth / 2
                     ccenterY = centerY + y * (gridHeight) + gridHeight / 2
 
@@ -84,21 +84,21 @@ def projectAttacks(surface, feed, player):
 
                 if arr[i][j] == 3:
                     x = j
-                    y = i
+                    y = 9-i
                     ccenterX = centerX + x * (gridWidth) + gridWidth / 2
                     ccenterY = centerY + y * (gridHeight) + gridHeight / 2
 
                     pygame.draw.circle(dsurface, (255, 0, 0), (int(ccenterX), int(ccenterY)), 3)
     if player == 1:
         centerX = 59
-        centerY = 367
-        centerXp = 895
-        centerYp = 391
+        centerY = 5
+        centerXp = 893
+        centerYp = 27
         for i in range(0, 10):
             for j in range(0, 10):
                 if feed[i][j] == 2:
                     x = j
-                    y = i
+                    y = 9-i
                     ccenterXp = centerXp + x * (gridWidth) + gridWidth / 2
                     ccenterYp = centerYp + y * (gridHeight) + gridHeight / 2
 
@@ -106,7 +106,7 @@ def projectAttacks(surface, feed, player):
 
                 if feed[i][j] == 3:
                     x = j
-                    y = i
+                    y = 9-i
                     ccenterXp = centerXp + x * (gridWidth) + gridWidth / 2
                     ccenterYp = centerYp + y * (gridHeight) + gridHeight / 2
 
@@ -115,7 +115,7 @@ def projectAttacks(surface, feed, player):
             for j in range(0, 10):
                 if arr[i][j] == 2:
                     x = j
-                    y = i
+                    y = 9-i
                     ccenterX = centerX + x * (gridWidth) + gridWidth / 2
                     ccenterY = centerY + y * (gridHeight) + gridHeight / 2
 
@@ -123,9 +123,8 @@ def projectAttacks(surface, feed, player):
 
                 if arr[i][j] == 3:
                     x = j
-                    y = i
+                    y = 9-i
                     ccenterX = centerX + x * (gridWidth) + gridWidth / 2
                     ccenterY = centerY + y * (gridHeight) + gridHeight / 2
 
                     pygame.draw.circle(dsurface, (255, 0, 0), (int(ccenterX), int(ccenterY)), 3)
-

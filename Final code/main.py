@@ -64,7 +64,10 @@ for minePos2 in detectShapePosition(background_images[3], shapes[3], 40):
 
 
 os.system("say 'Player 1 starts, attack!    '")
-
+for row in pap1:
+    print(row)
+for row in pap2:
+    print(row)
 #state = True
 desShip1 = 0
 desShip2 = 0
@@ -146,8 +149,9 @@ while state:
 
             pygame.display.update()
 
+    pygame.display.flip()
 
-    #pygame.display.flip()
+
 
 print("PLAYER 1")
 for row in pap1:
