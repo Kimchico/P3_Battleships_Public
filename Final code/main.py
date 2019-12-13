@@ -61,6 +61,7 @@ for minePos1 in detectShapePosition(background_images[2], shapes[2], 40):
 
 for minePos2 in detectShapePosition(background_images[3], shapes[3], 40):
     CheckMines(minePos2, pap1, feed2)
+
 projectAttacks(display_surface, feed1, 1)
 projectAttacks(display_surface, feed2, 2)
 
@@ -73,6 +74,10 @@ desShip2 = 0
 while state:
     _, frame = video.read()
     display_surface.blit(image, (0, 0))
+    projectShips(display_surface, p1ships, 1)
+    projectShips(display_surface, p2ships, 2)
+    projectAttacks(display_surface, feed1, 1)
+    projectAttacks(display_surface, feed2, 2)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
