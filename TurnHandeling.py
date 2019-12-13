@@ -43,7 +43,7 @@ def backgroundSubtraction (background):
         frame = denoise(frame)
         substraction = cv2.absdiff(background, frame)
         (thresh, bi) = cv2.threshold(substraction, 5, 255, cv2.THRESH_BINARY)
-        #bi = findBlobs(bi)
+
 
     #every time t is hundred, it takes an image and resets t to 0
         if t >= 100:
@@ -77,7 +77,6 @@ def backgroundSubtraction (background):
         cv2.imshow('first frame', background)
         cv2.imshow('webcam', frame)
         cv2.imshow('difference', bi)
-
 
         #print(bi.dtype)
         #print(bi.shape)
