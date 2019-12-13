@@ -16,7 +16,7 @@ def calibration(image_to_crop):
     binary_image = cv2.inRange(blurred_image, 130, 255)
     #cv2.imshow("gray", blurred_image)
     #cv2.imshow("mask", binary_image)
-    cv2.imwrite("Evaluation/Grid_4/blobs.jpg", binary_image)
+    cv2.imwrite("Evaluation/Grid_1/blobs.jpg", binary_image)
 
     # Find blob
 

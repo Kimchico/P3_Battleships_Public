@@ -41,6 +41,6 @@ while state:
                 background_images.append(cropGrid(frame, ag2))
             if event.unicode == 'e':
                 print('here')
-                for pot in detectShapePosition(background_images[3], cropGrid(frame, ag2), 30):
+                for pot in detectShapePosition(background_images[0], cropGrid(frame, pg1), 30):
                     print('blyat')
     pygame.display.update()
