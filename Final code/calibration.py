@@ -16,7 +16,7 @@ def calibration(image_to_crop):
     binary_image = cv2.inRange(blurred_image, 130, 255)
     #cv2.imshow("gray", blurred_image)
     #cv2.imshow("mask", binary_image)
-    cv2.imwrite("Evaluation/Grid_4/blobs.jpg", binary_image)
+    cv2.imwrite("Evaluation/Grid_1/blobs.jpg", binary_image)
 
     # Find blob
 
@@ -52,8 +52,8 @@ def calibration(image_to_crop):
 
 #marker_positions = []
 video = cv2.VideoCapture(1)
-video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
-video.set(cv2.CAP_PROP_EXPOSURE, -3)
+#video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
+#video.set(cv2.CAP_PROP_EXPOSURE, -3)
 #video.set(CV_CAP_PROP_FRAME_WIDTH, 1280);
 #video.set(CV_CAP_PROP_FRAME_HEIGHT, 720);
 #video.set(3, 1920)

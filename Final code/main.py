@@ -10,7 +10,9 @@ import random
 from attack import *
 import pygame
 import os
+from shipProjection import projectShips
 #from projection import project
+from attackProjection import projectAttacks
 
 pygame.init()
 state = True
@@ -62,13 +64,20 @@ for minePos2 in detectShapePosition(background_images[3], shapes[3], 40):
 
 
 os.system("say 'Player 1 starts, attack!    '")
-
+for row in pap1:
+    print(row)
+for row in pap2:
+    print(row)
 #state = True
 desShip1 = 0
 desShip2 = 0
 while state:
     _, frame = video.read()
     display_surface.blit(image, (0, 0))
+    projectShips(display_surface, p1ships, 1)
+    projectShips(display_surface, p2ships, 2)
+    projectAttacks(display_surface, feed1, 1)
+    projectAttacks(display_surface, feed2, 2)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -82,7 +91,7 @@ while state:
                         print(attackCoord)
 
                         shot =  attack(attackCoord, feed1, pap2, p2ships)
-
+                        projectAttacks(display_surface, feed1, 1)
                         print("feed 1")
                         for row in feed1:
                             print(row)
@@ -114,6 +123,7 @@ while state:
                         print("Player 2 attack cord")
                         print(attackCoord)
                         shot = attack(attackCoord, feed2, pap1, p1ships)
+                        projectAttacks(display_surface, feed2, 2)
                         print("feed 2")
                         for row in feed2:
                             print(row)
@@ -139,8 +149,9 @@ while state:
 
             pygame.display.update()
 
+    pygame.display.flip()
 
-    #pygame.display.flip()
+
 
 print("PLAYER 1")
 for row in pap1:
