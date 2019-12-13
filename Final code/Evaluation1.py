@@ -51,9 +51,9 @@ def calibration(image_to_crop):
     return ((player1_placement, player2_placement), (player1_attack, player2_attack))
 
 #marker_positions = []
-#video = cv2.VideoCapture(1)
-#video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
-#video.set(cv2.CAP_PROP_EXPOSURE, -3)
+video = cv2.VideoCapture(1)
+video.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
+video.set(cv2.CAP_PROP_EXPOSURE, -3)
 #video.set(CV_CAP_PROP_FRAME_WIDTH, 1280);
 #video.set(CV_CAP_PROP_FRAME_HEIGHT, 720);
 #video.set(3, 1920)
@@ -63,21 +63,21 @@ cv2.namedWindow("window", cv2.WND_PROP_FULLSCREEN)
 cv2.setWindowProperty("window",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
 cv2.imshow("window", cv2.imread("Final Pictures/fourblobs.png"))
 
-#os.system("say 'Do not place anything in the picture!'")
+os.system("say 'Do not place anything in the picture!'")
 
 
 temp = 0
-#while True:
-    #check, frame = video.read()
-   # key = cv2.waitKey(1)
+while True:
+    check, frame = video.read()
+    key = cv2.waitKey(1)
 
-   # if key == ord('q'):
-   #     break
+    if key == ord('q'):
+        break
 
-  #  temp += 1
+    temp += 1
 
 
-positions = calibration(cv2.imread('Final Pictures/fourblobs.png'))
+positions = calibration(frame)
 print(positions)
-#video.release()
+video.release()
 cv2.destroyAllWindows()

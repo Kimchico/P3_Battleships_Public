@@ -10,7 +10,9 @@ import random
 from attack import *
 import pygame
 import os
+from shipProjection import projectShips
 #from projection import project
+from attackProjection import projectAttacks
 
 pygame.init()
 state = True
@@ -49,7 +51,8 @@ for s2 in p2ships:
 #insert projection code here
 #project(image, display_surface, p1ships, 1)
 #project(image, display_surface, p2ships, 2)
-
+projectShips(display_surface, p1ships, 1)
+projectShips(display_surface, p2ships, 2)
 
 
 
@@ -58,7 +61,8 @@ for minePos1 in detectShapePosition(background_images[2], shapes[2], 40):
 
 for minePos2 in detectShapePosition(background_images[3], shapes[3], 40):
     CheckMines(minePos2, pap1, feed2)
-
+projectAttacks(display_surface, feed1, 1)
+projectAttacks(display_surface, feed2, 2)
 
 
 os.system("say 'Player 1 starts, attack!    '")
@@ -82,7 +86,7 @@ while state:
                         print(attackCoord)
 
                         shot =  attack(attackCoord, feed1, pap2, p2ships)
-
+                        projectAttacks(display_surface, feed1, 1)
                         print("feed 1")
                         for row in feed1:
                             print(row)
@@ -114,6 +118,7 @@ while state:
                         print("Player 2 attack cord")
                         print(attackCoord)
                         shot = attack(attackCoord, feed2, pap1, p1ships)
+                        projectAttacks(display_surface, feed2, 2)
                         print("feed 2")
                         for row in feed2:
                             print(row)
