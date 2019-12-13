@@ -51,8 +51,7 @@ for s2 in p2ships:
 #insert projection code here
 #project(image, display_surface, p1ships, 1)
 #project(image, display_surface, p2ships, 2)
-projectShips(display_surface, p1ships, 1)
-projectShips(display_surface, p2ships, 2)
+
 
 
 
@@ -62,8 +61,6 @@ for minePos1 in detectShapePosition(background_images[2], shapes[2], 40):
 for minePos2 in detectShapePosition(background_images[3], shapes[3], 40):
     CheckMines(minePos2, pap1, feed2)
 
-projectAttacks(display_surface, feed1, 1)
-projectAttacks(display_surface, feed2, 2)
 
 
 os.system("say 'Player 1 starts, attack!    '")
