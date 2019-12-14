@@ -37,9 +37,10 @@ def findBlobs(image):
 def backgroundSubtraction (background):
     t = 0
     background = denoise(background)
-
+   # background = background[307:368, 33:78]
     while True:
         ret, frame = cap.read()
+        #frame = frame[307:368, 33:78]
         frame = denoise(frame)
         substraction = cv2.absdiff(background, frame)
         (thresh, bi) = cv2.threshold(substraction, 5, 255, cv2.THRESH_BINARY)
@@ -48,6 +49,7 @@ def backgroundSubtraction (background):
     #every time t is hundred, it takes an image and resets t to 0
         if t >= 100:
             ret, background = cap.read()
+            #background = background[307:368, 33:78]
             background = denoise(background)
             #print(t)
             t = 0
@@ -69,22 +71,32 @@ def backgroundSubtraction (background):
         #approx function, is to remove noise by removing some of the contours, by averaging them out (look up decleration)
         approx = cv2.approxPolyDP(cnt, 0.02*cv2.arcLength(cnt, True), True)
 
-        if cntArea > 500 and cntArea < 600:
+        if cntArea > 50 and cntArea < 100:
             cv2.drawContours(bi, [approx], 0, (255, 0, 0),0)
-            if len(approx) <= 4:
+            if len(approx) > 20:
                 print("hand detected")
                 print(contours)
+
         cv2.imshow('first frame', background)
         cv2.imshow('webcam', frame)
         cv2.imshow('difference', bi)
-
+        """""
+        bloobs = extract_blobs(background)
+        for blob in bloobs:
+            print(len(blob))
+            """
         #print(bi.dtype)
         #print(bi.shape)
     return  bi
 
 
 ret, background = cap.read()
+#background = background[307:368, 33:78]
 backgroundSubtraction(background)
+
+
+#background = background[307:368, 33:78]
+
 
 cap.release()
 cv2.destroyAllWindows()

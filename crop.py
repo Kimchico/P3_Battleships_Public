@@ -10,5 +10,5 @@ cv2.imshow("test", image_calibration)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 
-50 65
+
 
