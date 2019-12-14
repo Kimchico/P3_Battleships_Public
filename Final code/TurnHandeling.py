@@ -25,7 +25,7 @@ video = cv2.VideoCapture (1)
 
 def conversion(image):
     image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    lower_red = np.array([160, 80, 80]); upper_red = np.array([190, 255, 255])
+    lower_red = np.array([140, 80, 80]); upper_red = np.array([190, 255, 255])
 
     mask_red =  cv2.inRange(image, lower_red, upper_red)
     #cv2.imshow(".", mask_red)
@@ -35,7 +35,7 @@ def conversion(image):
     print("red")
     for red in blob_red:
         print(len(red))
-        if len(red) > 1000:
+        if len(red) > 4000:
             correct_red.append(red)
 
     red_positions = coordinates(correct_red)
@@ -55,7 +55,7 @@ def findBlobs(image):
     blobs = extract_blobs(img)
     blobs2 = []
     for blob in blobs:
-        if len(blob) > 500:
+        if len(blob) > 4000:
             blobs2.append(blob)
 
 def backgroundSubtraction (background, crops):
@@ -74,7 +74,7 @@ def backgroundSubtraction (background, crops):
 
 
     #every time t is hundred, it takes an image and resets t to 0
-        if t >= 4:
+        if t >= 10:
             ret, background = video.read()
             #background = background[307:368, 33:78]
             background = background[crops[0][0][1]:crops[0][1][1], crops[0][0][0]:crops[0][1][0]]
@@ -101,7 +101,7 @@ def backgroundSubtraction (background, crops):
 
         if cntArea > 50 and cntArea < 100:
             cv2.drawContours(bi, [approx], 0, (255, 0, 0),0)
-            if len(approx) > 6 and len(approx) < 12:
+            if len(approx) < 100:
                 return True
                 print(contours)
 
@@ -128,7 +128,7 @@ def backgroundSubtraction_2 (background, crops):
 
 
     #every time t is hundred, it takes an image and resets t to 0
-        if t >= 4:
+        if t >= 10:
             ret, background = video.read()
             #background = background[307:368, 33:78]
             background = background[crops[1][0][1]:crops[1][1][1], crops[1][0][0]:crops[1][1][0]]
@@ -155,7 +155,7 @@ def backgroundSubtraction_2 (background, crops):
 
         if cntArea > 50 and cntArea < 100:
             cv2.drawContours(bi, [approx], 0, (255, 0, 0),0)
-            if len(approx) > 6 and len(approx) < 12:
+            if len(approx) < 100:
                 return True
                 print(contours)
 
@@ -171,10 +171,9 @@ crops = conversion(frame)
 
 
 if backgroundSubtraction(frame, crops):
-    print("true")
-
+    os.system("say 'player 1 hand'")
 if backgroundSubtraction_2(frame, crops):
-    print("true")
+    os.system("say 'player 2 hand'")
 
 
 #background = background[307:368, 33:78]

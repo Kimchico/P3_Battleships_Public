@@ -57,19 +57,22 @@ while state:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
-        if event.type == pygame.KEYDOWN:
+        elif event.type == pygame.KEYDOWN:
+            print(pygame.key.name(event.key))
             check, frame = video.read()
             if event.unicode == 'q':
                 background_images.append(cropGrid(frame, pg1))
                 background_images.append(cropGrid(frame, pg2))
                 background_images.append(cropGrid(frame, ag1))
                 background_images.append(cropGrid(frame, ag2))
+            pygame.display.update()
             if event.unicode == 'e':
                 shapes.append(cropGrid(frame, pg1))
                 shapes.append(cropGrid(frame, pg2))
                 shapes.append(cropGrid(frame, ag1))
                 shapes.append(cropGrid(frame, ag2))
                 state = False
+
     pygame.display.update()
 
 """
