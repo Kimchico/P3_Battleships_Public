@@ -89,7 +89,7 @@ ret, frame = video.read()
 crops = conversion(frame)
 
 
-"""
+
 
 while True:
     ret, frame = video.read()
@@ -104,6 +104,6 @@ while True:
 #conversion(image)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
-"""
+
 cv2.waitKey(0)
 cv2.destroyAllWindows()
