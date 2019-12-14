@@ -4,9 +4,12 @@ import os
 
 def attack(coord,feedArray,placementArray,shipsArray):
     print(coord)
+    hit = 0
+    shot = 0
     for c in coord:
         x = c[0]
         y = c[1]
+        shot = shot + 1
         if y == 10:
             y = y - 1
         if x == 10:
@@ -23,9 +26,10 @@ def attack(coord,feedArray,placementArray,shipsArray):
         #for p in placementArray: #this might need to be modified
         if placementArray[y][x]==1:
             feedArray[y][x]=2 #2 is shot and hit
-            os.system("say 'You hit'")
-            return True
+            hit = hit + 1
         if placementArray[y][x]==0:
             feedArray[y][x]=3 #3 is shot and missed
-            os.system("say 'You miss'")
-            return False
+    if shot == hit and shot == 1:
+        return True
+    else:
+        return False
