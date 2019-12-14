@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from blob import extract_blobs
 from fixMinMax import coordinates
-from TurnHandeling import *
+#from TurnHandeling import *
 import os
 
 def calibration(image_to_crop):
@@ -77,7 +77,7 @@ while True:
 
     temp += 1
 
-crops = conversion(frame)
+#crops = conversion(frame)
 positions = calibration(frame)
 print(positions)
 video.release()

@@ -13,7 +13,7 @@ import os
 from shipProjection import projectShips
 #from projection import project
 from attackProjection import projectAttacks
-from TurnHandeling import *
+#from TurnHandeling import *
 
 pygame.init()
 state = True
@@ -88,79 +88,73 @@ while state:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
-        #if event.type == pygame.KEYDOWN:
-        #    key = pygame.key.name(event.key)
-        #    print(key)
-            #if event.unicode == 'q':
-    print("here")
-    if backgroundSubtraction(frame, crops):
-        if (player1_turn == True and player2_turn == False):
-            for row in pap2:
-                print(row)
-            for attackCoord in detectShapePosition(background_images[2], cropGrid(frame, ag1), 30,'a'):
-                print("Player 1 attack cord")
-                print(attackCoord)
+        if event.type == pygame.KEYDOWN:
+            if event.unicode == 'q':
+                if (player1_turn == True and player2_turn == False):
+                    for row in pap2:
+                        print(row)
+                    for attackCoord in detectShapePosition(background_images[2], cropGrid(frame, ag1), 30,'a'):
+                        print("Player 1 attack cord")
+                        print(attackCoord)
 
-                shot =  attack(attackCoord, feed1, pap2, p2ships)
-                projectAttacks(display_surface, feed1, 1)
-                print("feed 1")
-                for row in feed1:
-                    print(row)
-            for s2 in p2ships:
-                s2.check_health()
-                if(s2.isDestroyed == True):
-                    desShip2 = desShip2+1
-                print("deship2")
-                print(desShip2)
+                        shot =  attack(attackCoord, feed1, pap2, p2ships)
+                        projectAttacks(display_surface, feed1, 1)
+                        print("feed 1")
+                        for row in feed1:
+                            print(row)
+                    for s2 in p2ships:
+                        s2.check_health()
+                        if(s2.isDestroyed == True):
+                            desShip2 = desShip2+1
+                        print("deship2")
+                        print(desShip2)
 
-                if amountOfShips2 == desShip2:
-                    state = False
-                else:
-                    desShip2 = 0
+                        if amountOfShips2 == desShip2:
+                            state = False
+                        else:
+                            desShip2 = 0
 
-                print(amountOfShips1)
-            if shot:
-                player1_turn = True
-                player2_turn = False
-            else:
-                player1_turn = False
-                player2_turn = True
+                        print(amountOfShips1)
+                    if shot:
+                        player1_turn = True
+                        player2_turn = False
+                    else:
+                        player1_turn = False
+                        player2_turn = True
 
-    pygame.display.update()
+            if event.unicode == 'e':
+                if (player1_turn == False and player2_turn == True):
+                    for row in pap1:
+                        print(row)
+                    for attackCoord in detectShapePosition(background_images[3], cropGrid(frame, ag2), 30,'a'):
+                        print("Player 1 attack cord")
+                        print(attackCoord)
 
-        #    if event.unicode == 'e':
-    print("omg")
-    if backgroundSubtraction_2(frame, crops):
-        if (player1_turn == False and player2_turn == True):
-            for row in pap1:
-                print(row)
-            for attackCoord in detectShapePosition(background_images[3], cropGrid(frame, ag2), 30,'a'):
-                print("Player 2 attack cord")
-                print(attackCoord)
-                shot = attack(attackCoord, feed2, pap1, p1ships)
-                projectAttacks(display_surface, feed2, 2)
-                print("feed 2")
-                for row in feed2:
-                    print(row)
+                        shot =  attack(attackCoord, feed2, pap1, p1ships)
+                        projectAttacks(display_surface, feed2, 2)
+                        print("feed 2")
+                        for row in feed2:
+                            print(row)
+                    for s1 in p1ships:
+                        s1.check_health()
+                        if(s1.isDestroyed == True):
+                            desShip1 = desShip1+1
+                        print("deship1")
+                        print(desShip1)
 
-            for s1 in p1ships:
-                s1.check_health()
-                if(s1.isDestroyed == True):
-                    desShip1 = desShip1+1
-                print("deship1")
-                print(desShip1)
+                        if amountOfShips1 == desShip1:
+                            state = False
+                        else:
+                            desShip1 = 0
 
-                if amountOfShips1 == desShip1:
-                    state = False
-                else:
-                    desShip1 = 0
-                print(amountOfShips2)
-            if shot:
-                player1_turn = False
-                player2_turn = True
-            else:
-                player1_turn = True
-                player2_turn = False
+                        print(amountOfShips2)
+                    if shot:
+                        player1_turn = False
+                        player2_turn = True
+                    else:
+                        player1_turn = True
+                        player2_turn = False
+
 
     pygame.display.update()
 
