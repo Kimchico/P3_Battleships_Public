@@ -35,10 +35,10 @@ pygame.display.set_caption('image')
 pap1 = [[0 for i in range(cols)] for j in range(rows)]; feed1 = [[0 for ii in range(cols)] for jj in range(rows)]; p1ships = [];
 pap2 = [[0 for f in range(cols)] for s in range(rows)]; feed2 = [[0 for ff in range(cols)] for ss in range(rows)]; p2ships = [];
 
-for shipPos in detectShapePosition(background_images[0], shapes[0], 30,'p'):
+for shipPos in detectShapePosition(background_images[0], shapes[0], 30):
     PlaceShip(pap1, shipPos, p1ships)
 
-for shipPos in detectShapePosition(background_images[1], shapes[1], 30,'p'):
+for shipPos in detectShapePosition(background_images[1], shapes[1], 30):
     PlaceShip(pap2, shipPos, p2ships)
 
 for s1 in p1ships:
@@ -55,10 +55,10 @@ for s2 in p2ships:
 
 
 
-for minePos1 in detectShapePosition(background_images[2], shapes[2], 40,'a'):
+for minePos1 in detectShapePosition(background_images[2], shapes[2], 40):
     CheckMines(minePos1, pap2, feed1)
 
-for minePos2 in detectShapePosition(background_images[3], shapes[3], 40,'a'):
+for minePos2 in detectShapePosition(background_images[3], shapes[3], 40):
     CheckMines(minePos2, pap1, feed2)
 
 
@@ -86,7 +86,7 @@ while state:
                 if (player1_turn == True and player2_turn == False):
                     for row in pap2:
                         print(row)
-                    for attackCoord in detectShapePosition(background_images[2], cropGrid(frame, ag1), 30,'a'):
+                    for attackCoord in detectShapePosition(background_images[2], cropGrid(frame, ag1), 30):
                         print("Player 1 attack cord")
                         print(attackCoord)
 
@@ -119,7 +119,7 @@ while state:
                 if (player1_turn == False and player2_turn == True):
                     for row in pap1:
                         print(row)
-                    for attackCoord in detectShapePosition(background_images[3], cropGrid(frame, ag2), 30,'a'):
+                    for attackCoord in detectShapePosition(background_images[3], cropGrid(frame, ag2), 30):
                         print("Player 2 attack cord")
                         print(attackCoord)
                         shot = attack(attackCoord, feed2, pap1, p1ships)

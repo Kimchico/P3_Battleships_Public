@@ -47,7 +47,7 @@ def projectAttacks(surface, feed, player):
     for y in range(0,10):
         for x in range(0,10):
             arr[x][y] = feed[9-x][9-y]
-    
+
     if player == 2:
         centerX = 895
         centerY = 391
@@ -125,3 +125,5 @@ def projectAttacks(surface, feed, player):
                     ccenterY = centerY + y * (gridHeight) + gridHeight / 2
 
                     pygame.draw.circle(dsurface, (255, 0, 0), (int(ccenterX), int(ccenterY)), 3)
+
+    pygame.display.update()

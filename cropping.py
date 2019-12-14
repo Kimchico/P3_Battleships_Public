@@ -26,7 +26,7 @@ red_positions = []; green_positions = []
 def conversion(image):
     image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     cv2.imshow("image", image)
-    lower_red = np.array([140, 100, 100]); upper_red = np.array([180, 255, 255])
+    lower_red = np.array([160, 80, 80]); upper_red = np.array([190, 255, 255])
     #lower_green = np.array([20, 100, 40]); upper_green = np.array([80, 255, 255])
 
     mask_red =  cv2.inRange(image, lower_red, upper_red)
@@ -89,7 +89,7 @@ ret, frame = video.read()
 crops = conversion(frame)
 
 
-
+"""
 
 while True:
     ret, frame = video.read()
@@ -102,5 +102,8 @@ while True:
 
 
 #conversion(image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+"""
 cv2.waitKey(0)
 cv2.destroyAllWindows()

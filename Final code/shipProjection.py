@@ -45,6 +45,8 @@ def projectShips(surface, ships, player):
             if (x == xf):
                 pygame.draw.rect(dsurface, (0, 0, 255),
                                  (rectx + 5, recty + 4, (gridWidth - 8), (gridHeight - 2) * (s.type)))
+
+    pygame.display.update()
 #project(grid)
 #cv2.waitKey(0)
 #cv2.destroyAllWindows()
