@@ -11,31 +11,6 @@ def cvimage_to_pygame(image):
     return pygame.image.frombuffer(image.tostring(), image.shape[1::-1],
                                    "RGB")
 
-i=0
-j=0
-
-feed1 =([[ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
-        [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
-        [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
-        [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
-        [ 0,  0,  3,  3,  0,  0,  0,  0,  0,  0],
-        [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
-        [ 0,  0,  0,  0,  2,  0,  0,  0,  0,  0],
-        [ 0,  0,  0,  0,  2,  0,  0,  0,  0,  0],
-        [ 0,  2,  2,  3,  0,  0,  0,  0,  0,  0],
-        [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
-         ])
-feed2 =([[ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
-        [ 0,  0,  2,  2,  2,  0,  0,  0,  0,  0],
-        [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
-        [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
-        [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
-        [ 0,  0,  0,  0,  3,  0,  0,  0,  0,  0],
-        [ 0,  0,  0,  0,  3,  0,  0,  0,  0,  0],
-        [ 0,  0,  0,  0,  3,  0,  0,  0,  0,  0],
-        [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
-        [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
-         ])
 
 def projectAttacks(surface, feed, player):
     dsurface=surface
@@ -64,7 +39,7 @@ def projectAttacks(surface, feed, player):
                     pygame.draw.circle(dsurface, (255,255,0), (int(ccenterXp), int(ccenterYp)), 3)
                 if feed[i][j] == 3:
                     x = j
-                    y = i
+                    y = 9-i
                     ccenterXp = centerXp + x * (gridWidth) + gridWidth / 2
                     ccenterYp = centerYp + y * (gridHeight) + gridHeight / 2
 

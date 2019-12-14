@@ -207,12 +207,12 @@ def shape_gridP(MinMax):
         #print('here')
         positions.append([Vmin+1,Hmin])
         #print(Vmin+1,Hmin)
-        positions.append([Vmin+1,Hmax])
+        positions.append([Vmin+1,Hmax-1])
         #print(Vmin+1,Hmax)
-        for i in range (Vmin,Vmax):
-            positions.append([i,Hmin+1])
-
-
+        for z in range (Vmin,Vmax):
+            positions.append([z,Hmin+1])
+    print('The positions are: ')
+    print(positions)
     return positions
 def find_shapes(image):
     img = image
@@ -238,7 +238,3 @@ def find_shapes(image):
         #print('Min Value: '+str(min_value))
         #print('Max Value: ' + str(max_value))
         yield (min_value, max_value)
-
-for calin in detectShapePosition(cv2.imread('Pictures/picture4.png'),cv2.imread('Pictures/Circle_4.jpg'),18,'a'):
-    print('this is'+str(calin))
-

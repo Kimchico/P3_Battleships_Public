@@ -22,7 +22,7 @@ def attack(coord,feedArray,placementArray,shipsArray):
                 for j in i.positions:
                     if j[0]==x and j[1]==y:
                         i.health=i.health-1
-
+                        i.check_health()
         #for p in placementArray: #this might need to be modified
         if placementArray[y][x]==1:
             feedArray[y][x]=2 #2 is shot and hit

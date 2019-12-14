@@ -21,17 +21,20 @@ def PlaceShip(placeArray,coord,shipArray):
         placeArray[y][x] = 1
         i=i+1
     shipArray.append(ship(i,coord,i))
-    
+
 
 def CheckMines(MineCoords,placeArray,feedBackArr):
-    Mx = MineCoords[0][0]
-    My = MineCoords[0][1]
-    Mx = 9 - Mx
-    My = 9 - My
-    if placeArray[My][Mx] == 0:
-        feedBackArr[My][Mx] = 3
-    if placeArray[My][Mx] == 1:
-        feedBackArr[My][Mx] = 2
+    if len(MineCoords) == 0:
+        print("nothing")
+    else:
+        Mx = MineCoords[0][0]
+        My = MineCoords[0][1]
+        Mx = 9 - Mx
+        My = 9 - My
+        if placeArray[My][Mx] == 0:
+            feedBackArr[My][Mx] = 3
+        if placeArray[My][Mx] == 1:
+            feedBackArr[My][Mx] = 2
 '''
 PlaceShip(ShipArr,coord,shipArray)
 
