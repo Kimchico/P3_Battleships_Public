@@ -6,7 +6,7 @@ from fixMinMax import coordinates
 import pygame
 import random
 
-def detectShapePosition(back,curent,thresh):
+def detectShapePosition(back,curent,thresh,type):
     awr = random.randrange(100000)
     back_grey = cv2.cvtColor(back, cv2.COLOR_BGR2GRAY)
     back_greyBH = cv2.equalizeHist(back_grey)
@@ -17,27 +17,25 @@ def detectShapePosition(back,curent,thresh):
     back_greyB = cv2.GaussianBlur(back_grey, (7, 7), 0)
     #current_greyBH = cv2.equalizeHist(current_grey)
     #back_greyBH = cv2.GaussianBlur(back_greyBH, (7,7), 0)
-    #cv2.imwrite("Evaluation/Grid_1/back_greyB" + str(awr) + ".jpg", back_greyB)
+
     #current_greyBH = cv2.GaussianBlur(current_greyBH, (7, 7), 0)
-    #cv2.imwrite("Evaluation/Grid_1/current_greyB"+ str(awr) + ".jpg", current_greyB)
+
     #cv2.imshow('back',back_greyBH)
     #cv2.imshow('current',current_greyBH)
     difference = cv2.absdiff(back_greyB, current_greyB)
-    #cv2.imwrite("Evaluation/Grid_1/difference" + str(awr) +".jpg", difference)
-    #cv2.imshow('diff',difference)
+    cv2.imshow('diff',difference)
     kernel = np.ones((5,5), np.uint8)
     img_binary = cv2.threshold(difference, thresh,255, cv2.THRESH_BINARY)[1]
-    #cv2.imwrite("Evaluation/Grid_1/img_binary" + str(awr) + ".jpg", img_binary)
 
-    #cv2.imshow('smth',img_binary)
+    cv2.imshow('smth',img_binary)
     erosion = cv2.erode(img_binary,kernel,iterations=2)
-    #cv2.imshow('dif',erosion)
-    #cv2.imwrite("Evaluation/Grid_1/erosion" + str(awr) + ".jpg", erosion)
+    cv2.imshow('dif',erosion)
+
     for point in find_shapes(erosion):
 
-        for MinMax in shape_positions(point,width,height):
+        for MinMax in shape_positions(point,width,height,type):
             positions = shape_gridP(MinMax)
-            print(positions)
+            #print(positions)
             yield positions
 
     cv2.waitKey(0)
@@ -53,7 +51,7 @@ def cvimage_to_pygame(image):
     """Convert cvimage into a pygame image"""
     return pygame.image.frombuffer(image.tostring(), image.shape[1::-1],
                                    "RGB")
-def shape_positions(coord,width,height):
+def shape_positions(coord,width,height,type):
 
 
     cubeWidth = int(width / 10)
@@ -123,60 +121,96 @@ def shape_positions(coord,width,height):
     #print('The shape starts on horizontal line ' + str(shapeRowMin) + ' and ends in horizontal line ' + str(shapeRowMax))
     #print('The shape is between rows ' + str(shapeRowMin) + ' and ' + str(shapeRowMax) + ' and between columns ' + str(shapeColumnMin) + ' and '+ str(shapeColumnMax))
     #print('The shape is between vertical lines ' + str(shapeRowMin)+ ' and '+ str(shapeRowMax) +' and column '+ str(shapeColumnMax))
+
     if (shapeXMax>(cubeWidth*10)):
         shapeColumnMax=10
     if (shapeYMax>(cubeHeight*10)):
         shapeRowMax=10
-    diffColumn=shapeColumnMax-shapeColumnMin
-    diffRows=shapeRowMax-shapeRowMin
-    if(diffColumn==0):
-        shapeColumnMax=shapeColumnMax+1
-    if(diffRows==0):
-        shapeRowMax=shapeRowMax+1
+    if(type=='p'):
+        diffColumn=shapeColumnMax-shapeColumnMin
+        diffRows=shapeRowMax-shapeRowMin
+        if(diffColumn==0):
+            shapeColumnMax=shapeColumnMax+1
+        if(diffRows==0):
+            shapeRowMax=shapeRowMax+1
 
-    if(diffColumn>=2 and diffRows>=2):
-        print("IF1 before" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
-        if(diffColumn==2 and diffRows==2):
-            print("IF1A before" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
+        if(diffColumn>=2 and diffRows>=2):
+            print("IF1 before" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
+            if(diffColumn==2 and diffRows==2):
+                print("IF1A before" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
+                if ((shapeYMax - shapeYMin) > (shapeXMax - shapeXMin)):
+                    print("IF1AA before" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
+                    shapeColumnMax = shapeColumnMax - 1
+                    print("IF1AA after"  + str(shapeRowMax) +  " "  + str(shapeColumnMax))
+
+                    #shapeRowMax += 1
+                elif ((shapeYMax - shapeYMin) < (shapeXMax - shapeXMin)):
+                    print("IF1B before" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
+                    shapeRowMax = shapeRowMax - 1
+                    print("IF1B after" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
+                    #shapeColumnMax += 1
+            else:
+                if(diffColumn>diffRows):
+                    print("IF2A before" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
+                    shapeRowMax=shapeRowMax-1
+                    print("IF2A after" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
+                if(diffRows>diffColumn):
+                    print("IF2B before" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
+                    shapeColumnMax=shapeColumnMax-1
+                    print("IF2B after" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
+            print("IF1 after" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
+        print(str(shapeColumnMin) + ' ' + str(shapeColumnMax) + ' ' + str(shapeRowMin) + ' ' + str(shapeRowMax))
+        yield(shapeColumnMin,shapeColumnMax,shapeRowMin,shapeRowMax)
+    if(type=='a'):
+        diffColumn = shapeColumnMax - shapeColumnMin
+        diffRows = shapeRowMax - shapeRowMin
+        if (diffColumn == 0):
+            shapeColumnMax = shapeColumnMax + 1
+        if (diffRows == 0):
+            shapeRowMax = shapeRowMax + 1
+        if (diffColumn == 2 and diffRows == 2):
+            #print("IF1A before" + str(shapeRowMax) + " " + str(shapeColumnMax))
             if ((shapeYMax - shapeYMin) > (shapeXMax - shapeXMin)):
-                print("IF1AA before" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
+                #print("IF1AA before" + str(shapeRowMax) + " " + str(shapeColumnMax))
                 shapeColumnMax = shapeColumnMax - 1
-                print("IF1AA after"  + str(shapeRowMax) +  " "  + str(shapeColumnMax))
+                #rint("IF1AA after" + str(shapeRowMax) + " " + str(shapeColumnMax))
 
-                #shapeRowMax += 1
+                # shapeRowMax += 1
             elif ((shapeYMax - shapeYMin) < (shapeXMax - shapeXMin)):
-                print("IF1B before" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
+                #print("IF1B before" + str(shapeRowMax) + " " + str(shapeColumnMax))
                 shapeRowMax = shapeRowMax - 1
-                print("IF1B after" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
-                #shapeColumnMax += 1
-        else:
-            if(diffColumn>diffRows):
-                print("IF2A before" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
-                shapeRowMax=shapeRowMax-1
-                print("IF2A after" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
-            if(diffRows>diffColumn):
-                print("IF2B before" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
-                shapeColumnMax=shapeColumnMax-1
-                print("IF2B after" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
-        print("IF1 after" + str(shapeRowMax) +  " "  + str(shapeColumnMax))
+                #print("IF1B after" + str(shapeRowMax) + " " + str(shapeColumnMax))
+                # shapeColumnMax += 1
+        yield (shapeColumnMin, shapeColumnMax, shapeRowMin, shapeRowMax)
 
-    yield(shapeColumnMin,shapeColumnMax,shapeRowMin,shapeRowMax)
-    print(str(shapeColumnMin) + ' ' + str(shapeColumnMax)+ ' '+str(shapeRowMin)+ ' '+str(shapeRowMax))
 def shape_gridP(MinMax):
     Vmin = MinMax[0]
     Vmax = MinMax[1]
     Hmin = MinMax[2]
     Hmax = MinMax[3]
     positions=[]
+    pos2=[]
     if Vmax - Vmin == 1:
         if Hmax - Hmin == 1:
+            #print('goes here')
             positions.append([Vmin,Hmin])
+            #print(Vmin,Hmin)
+            #print(positions)
         else:
             for i in range(Hmin, Hmax):
                 positions.append([Vmin,i])
-    if Hmax - Hmin == 1:
-            for j in range(Vmin, Vmax):
-                positions.append([j,Hmin])
+    if Vmax - Vmin is not 1:
+        if Hmax - Hmin == 1:
+                for j in range(Vmin, Vmax):
+                    positions.append([j,Hmin])
+    if Hmax - Hmin == 3 and Vmax - Vmin == 3:
+        #print('here')
+        positions.append([Vmin+1,Hmin])
+        #print(Vmin+1,Hmin)
+        positions.append([Vmin+1,Hmax])
+        #print(Vmin+1,Hmax)
+        for i in range (Vmin,Vmax):
+            positions.append([i,Hmin+1])
 
 
     return positions
@@ -189,19 +223,22 @@ def find_shapes(image):
     x=w/10
 
     for blob in blobs:
-        print('before removing '+ str(len(blob)))
+        #print('before removing '+ str(len(blob)))
 
         min_value = blob[0]
         max_value = blob[-1]
         if max_value[1]-min_value[1] < x*5 and max_value[0]-min_value[0] < y*5: #and (len(blob) > 80):
             blobs2.append(blob)
-    for blob2 in blobs2:
-        print('after removing '+str(len(blob2)))
+    #for blob2 in blobs2:
+        #print('after removing '+str(len(blob2)))
     blobs3=coordinates(blobs2)
     for blob3 in blobs3:
         min_value = blob3[0]
         max_value = blob3[-1]
-        print('Min Value: '+str(min_value))
-        print('Max Value: ' + str(max_value))
+        #print('Min Value: '+str(min_value))
+        #print('Max Value: ' + str(max_value))
         yield (min_value, max_value)
-#detectShapePostion(back=cv2.imread('Pictures/Cropped.jpg'),curent=cv2.imread('Pictures/shipsCropped.jpg'))
+
+for calin in detectShapePosition(cv2.imread('Pictures/picture4.png'),cv2.imread('Pictures/Circle_4.jpg'),18,'a'):
+    print('this is'+str(calin))
+
